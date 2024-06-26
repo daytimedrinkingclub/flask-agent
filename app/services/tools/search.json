@@ -1,0 +1,14 @@
+{
+    "name": "web_search",
+    "description": "Search for information using this tool, this tool can be used to find any kind of search information that you need from the web",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": { 
+            "type": "string", 
+            "description": "The query to search for, always try to use this query when you need to search for something on the web"
+        }
+      },
+      "required": ["query"]
+    }
+}

@@ -1,0 +1,8 @@
+curl -X POST \
+  https://api.yourecommerceplatform.com/v1/connect_store \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer YOUR_API_TOKEN' \
+  -d '{
+    "store_url": "https://yourstore.com",
+    "api_key": "your_store_api_key"
+  }'

@@ -1,0 +1,15 @@
+{
+    "name": "consult_subhash",
+    "description": "Use this tool to ask any clarifying questions to the bot9 tech team. This will be used to help the user with their tasks. The tech team has extensive knowledge about the bot9 system and can provide detailed answers.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "query": 
+            { 
+                "type": "string", 
+                "description": "The question to ask the bot9 tech team"
+            }
+        },
+        "required": ["query"]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "write_curl_to_file",
+    "description": "Use this tool to write your curl command to a file, this tool can be used to write the generated curl command to a file write only one curl to a file not more. do not write any isntructions or anything etc only the curl command",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "file_content": { "type": "string", "description": "The curl command to write to the file" },
+        "file_name": { "type": "string", "description": "The name of the file to write the curl command to, without any extensions" }
+      },
+      "required": ["file_content", "file_name"]
+    }
+}

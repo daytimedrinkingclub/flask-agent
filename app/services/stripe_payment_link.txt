@@ -1,0 +1,7 @@
+curl -X POST https://api.stripe.com/v1/payment_links \
+  -H "Authorization: Bearer {{STRIPE_SECRET_KEY}}" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "line_items[0][price_data][currency]=usd" \
+  -d "line_items[0][price_data][unit_amount]={{AMOUNT}}" \
+  -d "line_items[0][price_data][product_data][name]={{PRODUCT_NAME}}" \
+  -d "line_items[0][quantity]=1"

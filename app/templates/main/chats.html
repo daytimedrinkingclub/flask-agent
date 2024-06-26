@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Your Chats</h2>
+        </div>
+        <div class="col-md-4 text-right">
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newChatModal">
+                New Chat
+            </button>
+        </div>
+    </div>
+    {% if chats %}
+        <div class="card-columns">
+            {% for chat in chats %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{ url_for('main.chat', chat_id=chat.id) }}" class="text-decoration-none">
+                            {% if chat.last_message %}
+                                {{ chat.last_message|truncate(50) }}
+                            {% else %}
+                                New Chat
+                            {% endif %}
+                        </a>
+                    </h5>
+                    <p class="card-text">
+                        <small class="text-muted">Created: {{ chat.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                    </p>
+                    <span class="badge bg-primary">{{ chat.message_count }} messages</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You don't have any chats yet. Start a new chat to begin!
+        </div>
+    {% endif %}
+</div>
+
+<!-- New Chat Modal -->
+<div class="modal fade" id="newChatModal" tabindex="-1" role="dialog" aria-labelledby="newChatModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newChatModalLabel">Start a New Chat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="newChatForm">
+                    <div class="form-group">
+                        <label for="botnine_chatbot_id">BotNine Chatbot ID:</label>
+                        <input type="text" class="form-control" id="botnine_chatbot_id" name="botnine_chatbot_id" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="startNewChat">Start Chat</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#startNewChat').click(function(e) {
+            e.preventDefault();
+            var botnine_chatbot_id = $('#botnine_chatbot_id').val();
+            if (!botnine_chatbot_id) {
+                alert('Please enter a BotNine Chatbot ID');
+                return;
+            }
+            $.ajax({
+                url: "{{ url_for('main.new_chat') }}",
+                method: 'POST',
+                data: JSON.stringify({botnine_chatbot_id: botnine_chatbot_id}),
+                contentType: 'application/json',
+                success: function(response) {
+                    $('#newChatModal').modal('hide');
+                    window.location.href = response.redirect_url;
+                },
+                error: function(xhr, status, error) {
+                    alert('Error creating new chat: ' + xhr.responseJSON.error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .card-columns {
+        column-count: 3;
+    }
+    @media (max-width: 768px) {
+        .card-columns {
+            column-count: 2;
+        }
+    }
+    @media (max-width: 576px) {
+        .card-columns {
+            column-count: 1;
+        }
+    }
+</style>
+{% endblock %}

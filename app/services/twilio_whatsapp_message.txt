@@ -1,0 +1,6 @@
+curl -X POST https://api.twilio.com/2010-04-01/Accounts/{{TWILIO_ACCOUNT_SID}}/Messages.json \
+  --user {{TWILIO_ACCOUNT_SID}}:{{TWILIO_AUTH_TOKEN}} \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "From=whatsapp:{{TWILIO_WHATSAPP_NUMBER}}" \
+  -d "To=whatsapp:{{RECIPIENT_NUMBER}}" \
+  -d "Body={{MESSAGE_BODY}}"

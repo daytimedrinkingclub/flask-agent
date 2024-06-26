@@ -1,0 +1,136 @@
+<!-- app/templates/main/chat.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h1>Chat {{ chat.id }}</h1>
+    </div>
+    <div class="col-md-4 text-right">
+      <p>Welcome, {{ current_user.username }}</p>
+      <p>Bot9 Auth Token: {{ bot9_token }}</p>
+      <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="conversation">
+        {% if conversation %}
+        {% for message in conversation %}
+          <div class="message {% if message.role == 'user' %}user-message{% else %}assistant-message{% endif %}">
+            {% for content in message.content %}
+              {% if content.type == 'text' %}
+                <p><strong>{{ message.role|capitalize }}:</strong> {{ content.text }}</p>
+              {% elif content.type == 'tool_result' %}
+                <p><strong>Tool Result:</strong> {{ content.content }}</p>
+              {% elif content.type == 'tool_use' %}
+                <p><strong>Tool Used:</strong> {{ content.name }}</p>
+                <p><strong>Tool Input:</strong> {{ content.input }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No messages yet. Start the conversation!</p>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <form id="chat-form">
+        <div class="input-group">
+          <input type="text" id="user-message" name="user_message" class="form-control" placeholder="Type your message..." required>
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('chat-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var userMessage = document.getElementById('user-message').value;
+    fetch('{{ url_for("main.send_message", chat_id=chat.id) }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user_message: userMessage })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('user-message').value = '';
+      refreshChat();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+
+    function refreshChat() {
+    fetch('{{ url_for("main.refresh_chat", chat_id=chat.id) }}')
+      .then(response => response.json())
+      .then(data => {
+        var conversation = document.getElementById('conversation');
+        conversation.innerHTML = ''; // Clear existing messages
+        data.conversation.forEach(message => {
+          var messageElement = document.createElement('div');
+          messageElement.classList.add('message', message.role + '-message');
+          var messageContent = '';
+          message.content.forEach(content => {
+            if (content.type === 'text') {
+              messageContent += '<p><strong>' + message.role.charAt(0).toUpperCase() + message.role.slice(1) + ':</strong> ' + content.text + '</p>';
+            } else if (content.type === 'tool_result') {
+              messageContent += '<p><strong>Tool Result:</strong> ' + content.content + '</p>';
+            } else if (content.type === 'tool_use') {
+              messageContent += '<p><strong>Tool Used:</strong> ' + content.name + '</p>';
+              messageContent += '<p><strong>Tool Input:</strong> ' + JSON.stringify(content.input) + '</p>';
+            }
+          });
+          messageElement.innerHTML = messageContent;
+          conversation.appendChild(messageElement);
+        });
+        conversation.scrollTop = conversation.scrollHeight;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
+  // Refresh chat every 1 second
+  setInterval(refreshChat, 5000);
+
+  // Initial refresh
+  refreshChat();
+</script>
+
+<style>
+  #conversation {
+    min-height: 400px;
+    max-height: 600px;
+    min-width: 300px;
+    width: 100%;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  .message {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .user-message {
+    background-color: #e6f2ff;
+  }
+  .assistant-message {
+    background-color: #f0f0f0;
+  }
+</style>
+{% endblock %}
