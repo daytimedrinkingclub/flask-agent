@@ -11,7 +11,12 @@ class Config(object):
     TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY')
     GOOGLE_SEARCH_API_KEY = os.environ.get('GOOGLE_SEARCH_API_KEY')
     SEARCH_ENGINE_ID = os.environ.get('SEARCH_ENGINE_ID')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    # Database configuration
+    DATABASE_URL = os.environ.get('HEROKU_POSTGRESQL_PURPLE_URL') or os.environ.get('DATABASE_URL')
+    if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # # Email configuration
