@@ -15,9 +15,11 @@
         <div class="mb-6">
             <label for="token" class="block text-gray-700 text-sm font-bold mb-2">Bot9 Auth Token</label>
             <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="token" name="token" required>
+            <p class="mt-2 text-sm text-gray-500">Find your token in bot9 settings - API Key</p>
         </div>
         <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Sign Up</button>
     </form>
     <p class="mt-4 text-center text-sm">Already have an account? <a href="{{ url_for('auth.login') }}" class="text-blue-500 hover:underline">Login here</a>.</p>
+    <p class="mt-2 text-center text-sm">Don't have a Bot9 account? <a href="https://bot9.ai" target="_blank" class="text-blue-500 hover:underline">Create one here</a>.</p>
 </div>
 {% endblock %}
