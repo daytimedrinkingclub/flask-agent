@@ -31,6 +31,8 @@ class Chat(db.Model):
     messages = relationship('Message', back_populates='chat', lazy='dynamic', cascade='all, delete-orphan')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    action_curls = relationship("ActionCurls", back_populates="chat")
+
 # This table stores all types of messages (user, assistant, tool use, tool result)
 class Message(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -42,5 +44,14 @@ class Message(db.Model):
     tool_input = db.Column(db.JSON, nullable=True)
     tool_result = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
+    
     chat = relationship('Chat', back_populates='messages')
+
+class ActionCurls(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chat.id'), nullable=False)
+    action_name = db.Column(db.Text, nullable=False)
+    curl_as_json = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    chat = relationship('Chat', back_populates='action_curls')

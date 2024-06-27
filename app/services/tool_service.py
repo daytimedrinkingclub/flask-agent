@@ -20,23 +20,6 @@ class Tools:
         print(f"Tools loaded and returned {len(tools)} tools")
         return tools
 
-
-    @staticmethod
-    def write_to_file(file_content, file_name):
-        # Ensure the file has a .txt extension
-        if not file_name.endswith('.txt'):
-            file_name += '.txt'
-        
-        # Get the current directory
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Create the full file path
-        file_path = os.path.join(current_dir, file_name)
-        # Create and write to the text file
-        with open(file_path, "w", encoding="utf-8") as file:
-            file.write(file_content)
-        
-        return f"File '{file_name}' has been created in the current directory and the content has been written successfully."
-
 # This class can be called to process the tool use and call the required tool and return the tool result
 class ToolsHandler:
     @staticmethod
@@ -57,11 +40,11 @@ class ToolsHandler:
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
         elif tool_name == "create_botnine_action":
-            action_status = BotnineService.create_action(chat_id, tool_input["action_name"], tool_input["curl_file_name"], tool_input["action_description"])
+            action_status = BotnineService.create_action(chat_id, tool_input["action_name"], tool_input["action_description"])
             DataService.save_message(chat_id, "user", content=action_status, tool_use_id=tool_use_id, tool_result=action_status)
             return action_status
-        elif tool_name == "write_curl_to_file":
-            result = Tools.write_to_file(tool_input["curl_command"], tool_input["file_name"])
+        elif tool_name == "write_curl_to_database":
+            result = DataService.write_curl_to_database(chat_id, tool_input["curl_as_json"], tool_input["action_name"])
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
         else:
