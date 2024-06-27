@@ -1,6 +1,6 @@
 {
     "name": "web_search",
-    "description": "Search for information using this tool, this tool can be used to find any kind of search information that you need from the web",
+    "description": "This tool is very useful to learn about the latest api endpoints so we can use the information",
     "input_schema": {
       "type": "object",
       "properties": {

@@ -4,12 +4,12 @@
     "input_schema": {
       "type": "object",
       "properties": {
-        "query": 
+        "question": 
             { 
                 "type": "string", 
                 "description": "The question to ask the bot9 tech team"
             }
         },
-        "required": ["query"]
+        "required": ["question"]
     }
 }

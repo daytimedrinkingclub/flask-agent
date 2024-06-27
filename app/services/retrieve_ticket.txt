@@ -1,0 +1,1 @@
+curl -X GET "https://{your_domain}.freshdesk.com/api/v2/tickets/{ticket_id}" -H "Content-Type: application/json" -H "Authorization: Basic {base64_encoded_api_key}"

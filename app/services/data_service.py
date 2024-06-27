@@ -148,3 +148,18 @@ class DataService:
     def get_chats_with_summary(user_id):
         chats = Chat.query.filter_by(user_id=user_id).all()
         return [DataService.get_chat_summary(chat.id) for chat in chats] if chats else []
+    
+    @staticmethod
+    def get_bot9_token(chat_id):
+        chat = Chat.query.filter(Chat.id == chat_id).first()
+        if chat:
+            return Token.query.filter(Token.user_id == chat.user_id).first().botnine_token
+        return None
+    
+    @staticmethod
+    def get_chatbot_id(chat_id):
+        chat = Chat.query.filter(Chat.id == chat_id).first()
+        if chat:
+            return chat.botnine_chatbot_id
+        return None
+

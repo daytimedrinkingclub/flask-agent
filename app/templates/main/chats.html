@@ -1,115 +1,124 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8">
-            <h2>Your Chats</h2>
-        </div>
-        <div class="col-md-4 text-right">
-            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newChatModal">
-                New Chat
-            </button>
-        </div>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Your Chats</h2>
+        <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="openNewChatModal()">
+            New Chat
+        </button>
     </div>
     {% if chats %}
-        <div class="card-columns">
-            {% for chat in chats %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{{ url_for('main.chat', chat_id=chat.id) }}" class="text-decoration-none">
-                            {% if chat.last_message %}
-                                {{ chat.last_message|truncate(50) }}
-                            {% else %}
-                                New Chat
-                            {% endif %}
-                        </a>
-                    </h5>
-                    <p class="card-text">
-                        <small class="text-muted">Created: {{ chat.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
-                    </p>
-                    <span class="badge bg-primary">{{ chat.message_count }} messages</span>
-                </div>
-            </div>
-            {% endfor %}
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Last Message
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Created At
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Messages
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chat in chats|sort(attribute='created_at', reverse=true) %}
+                    <tr>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <a href="{{ url_for('main.chat', chat_id=chat.id) }}" class="text-blue-600 hover:text-blue-800">
+                                {% if chat.last_message %}
+                                    {{ chat.last_message|truncate(50) }}
+                                {% else %}
+                                    New Chat
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            {{ chat.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <span class="bg-blue-500 text-white py-1 px-3 rounded-full text-xs">
+                                {{ chat.message_count }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     {% else %}
-        <div class="alert alert-info" role="alert">
-            You don't have any chats yet. Start a new chat to begin!
+        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
+            <p>You don't have any chats yet. Start a new chat to begin!</p>
         </div>
     {% endif %}
 </div>
 
 <!-- New Chat Modal -->
-<div class="modal fade" id="newChatModal" tabindex="-1" role="dialog" aria-labelledby="newChatModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newChatModalLabel">Start a New Chat</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div id="newChatModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                    Start a New Chat
+                </h3>
+                <div class="mt-2">
+                    <form id="newChatForm">
+                        <div class="mb-4">
+                            <label for="botnine_chatbot_id" class="block text-gray-700 text-sm font-bold mb-2">BotNine Chatbot ID:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="botnine_chatbot_id" name="botnine_chatbot_id" required>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" id="startNewChat">
+                    Start Chat
                 </button>
-            </div>
-            <div class="modal-body">
-                <form id="newChatForm">
-                    <div class="form-group">
-                        <label for="botnine_chatbot_id">BotNine Chatbot ID:</label>
-                        <input type="text" class="form-control" id="botnine_chatbot_id" name="botnine_chatbot_id" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="startNewChat">Start Chat</button>
+                <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeNewChatModal()">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
 <script>
-    $(document).ready(function() {
-        $('#startNewChat').click(function(e) {
-            e.preventDefault();
-            var botnine_chatbot_id = $('#botnine_chatbot_id').val();
-            if (!botnine_chatbot_id) {
-                alert('Please enter a BotNine Chatbot ID');
-                return;
-            }
-            $.ajax({
-                url: "{{ url_for('main.new_chat') }}",
-                method: 'POST',
-                data: JSON.stringify({botnine_chatbot_id: botnine_chatbot_id}),
-                contentType: 'application/json',
-                success: function(response) {
-                    $('#newChatModal').modal('hide');
-                    window.location.href = response.redirect_url;
-                },
-                error: function(xhr, status, error) {
-                    alert('Error creating new chat: ' + xhr.responseJSON.error);
-                }
-            });
+    function openNewChatModal() {
+        document.getElementById('newChatModal').classList.remove('hidden');
+    }
+
+    function closeNewChatModal() {
+        document.getElementById('newChatModal').classList.add('hidden');
+    }
+
+    document.getElementById('startNewChat').addEventListener('click', function(e) {
+        e.preventDefault();
+        var botnine_chatbot_id = document.getElementById('botnine_chatbot_id').value;
+        if (!botnine_chatbot_id) {
+            alert('Please enter a BotNine Chatbot ID');
+            return;
+        }
+        fetch("{{ url_for('main.new_chat') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({botnine_chatbot_id: botnine_chatbot_id}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            closeNewChatModal();
+            window.location.href = data.redirect_url;
+        })
+        .catch(error => {
+            alert('Error creating new chat: ' + error);
         });
     });
 </script>
-{% endblock %}
-
-{% block styles %}
-<style>
-    .card-columns {
-        column-count: 3;
-    }
-    @media (max-width: 768px) {
-        .card-columns {
-            column-count: 2;
-        }
-    }
-    @media (max-width: 576px) {
-        .card-columns {
-            column-count: 1;
-        }
-    }
-</style>
 {% endblock %}

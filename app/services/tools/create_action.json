@@ -1,0 +1,22 @@
+{
+    "name": "create_botnine_action",
+    "description": "Use this tool to create a botnine action, on the users bot9 account",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "action_name": { 
+            "type": "string", 
+            "description": "The name of action to be created on bot9" 
+        },
+        "action_description": { 
+            "type": "string", 
+            "description": "The deescripton of the action being created" 
+        },
+        "curl_file_name": {
+            "type": "string",
+            "description": "The curl file name needs to be shared here so the action can be created on bot9"
+        }
+      },
+      "required": ["action_name", "action_description", "action_curl_file_name"]
+    }
+}
