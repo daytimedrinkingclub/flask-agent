@@ -26,7 +26,7 @@ def signup():
         
         if new_user:
             login_user(new_user)
-            return redirect(url_for('main.new_chat'))
+            return redirect(url_for('main.chats'))
         
     return render_template('auth/signup.html')
 

@@ -33,7 +33,8 @@ class AnthropicChat:
             the user will provide you general details, about their use case, further try to reach out bot9 tech or search the web to solve the user problems, and complete the task\n
             always try to use tools to complete the goal, search the web for latest api endpoints and structures to be sure about things, consult the user about the support use cases they want to solve \n
             if needed consult the bot9 tech team to get more information about what all is possible with the bot9 software\n
-            always search the web for latest api endpoints and only then share the data to curl command writer so we are sure about our api calls
+            always search the web for latest api endpoints and only then share the data to curl command writer so we are sure about our api calls\n\n
+            Important thing to note is that you cannot use the tool to create action on botnine without writing the curl command to the database first, this is a must, otherwise you will not be able to create an action on botnine
             """,
             tools=tools,
             # tool_choice={"type": "auto"},

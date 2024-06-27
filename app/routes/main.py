@@ -36,7 +36,7 @@ def chat(chat_id):
     if not chat or chat.user_id != current_user.id:
         return redirect(url_for('main.chats'))
     conversation = DataService.load_conversation(str(chat_id))
-    bot9_token = DataService.get_botnine_token(current_user.id)
+    bot9_token = "Token Added" if DataService.get_botnine_token(current_user.id) else None
     return render_template('main/chat.html', chat=chat, conversation=conversation, bot9_token=bot9_token)
 
 @bp.route('/chat/<uuid:chat_id>/message', methods=['POST'])
