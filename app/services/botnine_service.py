@@ -25,7 +25,13 @@ class BotnineService:
         
         response = requests.post(url, headers=headers, json=botnine_api_payload)
         print(f"response: {response.json()}")
-        return json.dumps(response.json())
+        
+        if response.status_code == 201:
+            response_data = response.json()
+            create_action_name = response_data['name']
+            return f"Action successfully created with name: {create_action_name}"
+        else:
+            return f"Error creating action: {response.text}"
     
 
     @staticmethod
