@@ -12,8 +12,9 @@ class BotnineService:
 
 
         # Parse the curl content
+        print(f"chat_id: {chat_id}, action_name: {action_name}, description: {description}")
         botnine_api_payload = BotnineService.build_payload(chat_id, action_name, description)
-
+        print(f"botnine_api_payload: {botnine_api_payload}")
 
         # Make the API request
         url = f"https://apiv1.bot9.ai/api/rules/{chatbot_id}/custom-actions"
@@ -21,9 +22,9 @@ class BotnineService:
             'authorization': f'Bearer {bot9_token}',
             'content-type': 'application/json'
         }
-        print(f"botnine_api_payload: {botnine_api_payload}")
+        
         response = requests.post(url, headers=headers, json=botnine_api_payload)
-        print(response.json())
+        print(f"response: {response.json()}")
         return json.dumps(response.json())
     
 
@@ -35,37 +36,65 @@ class BotnineService:
         base_url = curl_data['url']
         curl_method = curl_data['method']
         curl_headers = curl_data['headers']
-        curl_body = curl_data['body']
+        curl_params = curl_data.get('params', {})
+        curl_body = curl_data.get('body', {})
 
-        # Extract path and query parameters
-        url_parts = base_url.split('?')
-        curl_pathParams = [param for param in url_parts[0].split('/') if '{' in param and '}' in param]
-        curl_queryParams = []
-        if len(url_parts) > 1:
-            curl_queryParams = [param.split('=')[0] for param in url_parts[1].split('&')]
-
-        # Parse the body
-        body_params = [
+        # Extract path parameters
+        path_parts = base_url.split('/')
+        curl_pathParams = [
             {
-                "key": key,
-                "value": f"{{{{{key}}}}}",
+                "key": param.strip('${}'),
+                "value": f"{{{{{param.strip('${}')}}}}}", 
+                "description": "",
                 "type": "string"
-            } for key in curl_body.keys()
+            }
+            for param in path_parts if param.startswith('${') and param.endswith('}')
         ]
+        
+        # Update base_url to use double curly brackets
+        base_url = '/'.join([f"{{{{{p.strip('${}')}}}}}" if p.startswith('${') and p.endswith('}') else p for p in path_parts])
 
         payload = {
             "name": action_name,
             "description": description,
             "meta": {
                 "method": curl_method,
-                "url": base_url.replace("${", "{{").replace("}", "}}"),
-                "headers": {k: v.replace("${", "{{").replace("}", "}}") for k, v in curl_headers.items()},
-                "pathParams": curl_pathParams,
-                "queryParams": curl_queryParams,
-                "body": body_params
+                "url": base_url,
+                "headers": {k: f"{{{{{v.strip('${}')}}}}}" if v.startswith('${') else v for k, v in curl_headers.items()},
+                "logoURL": "",
+                "code": "",
+                "denoDeploymentId": "",
             },
             "actionType": "http_request",
             "isSideEffect": False
         }
+
+        # Only add pathParams if there are any
+        if curl_pathParams:
+            payload['meta']['pathParams'] = curl_pathParams
+
+        if curl_method.upper() == 'GET':
+            payload['meta']['queryParams'] = [
+                {
+                    "key": key,
+                    "value": f"{{{{key}}}}",
+                    "description": f"Parameter: {key}",
+                    "type": "string"  # Simplified type handling
+                } for key in curl_params.keys()
+            ]
+        elif curl_method.upper() in ['POST', 'PUT', 'PATCH']:
+            payload['meta']['body'] = [
+                {
+                    "key": key,
+                    "value": f"{{{{{value.strip('${}')}}}}}" if isinstance(value, str) and value.startswith('${') else value,
+                    "description": f"{key} Description",
+                    "type": "string"  # Simplified type handling
+                } for key, value in curl_body.items()
+            ]
+        elif curl_method.upper() == 'DELETE':
+            # DELETE method doesn't have a body
+            pass
+
         print(f"payload: \n\n--------------------\n{payload}\n--------------------\n")
         return payload
+        

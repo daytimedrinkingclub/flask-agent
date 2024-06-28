@@ -10,7 +10,7 @@
         },
         "curl_as_json": { 
             "type": "string", 
-            "description": "The curl command to write to the database, write the curl command in a json structure" 
+            "description": "The curl command to write to the database, write the curl command in a json structure, always use the format ${variable_value}, the variable value could be a path param, or data object, api keys, query params, body params" 
         }
       },
       "required": ["action_name", "curl_as_json"]

@@ -19,6 +19,16 @@ class Tools:
                     tools.append(tool_data)
         print(f"Tools loaded and returned {len(tools)} tools")
         return tools
+    
+    @staticmethod
+    def curl_tool():
+        tools_dir = os.path.join(os.path.dirname(__file__), "tools/curl_converter.json")
+        tools = []
+        with open(tools_dir, "r") as file:
+            tool_data = json.load(file)
+            tools.append(tool_data)
+        print(f"Tools loaded and returned {len(tools)} tools")
+        return tools
 
 # This class can be called to process the tool use and call the required tool and return the tool result
 class ToolsHandler:
