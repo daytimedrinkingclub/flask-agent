@@ -18,7 +18,7 @@ class AnthropicChat:
         print(f"process_conversation started")
         
         response = client.messages.create(
-            model="claude-3-opus-20240229",
+            model="claude-3-5-sonnet-20240620",
             max_tokens=4000,
             temperature=0,
             system=
