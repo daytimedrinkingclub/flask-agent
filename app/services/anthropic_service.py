@@ -5,6 +5,11 @@ import anthropic
 prompts = {
     "consult_subhash": 
     """
+    Core botnine features, train ai bot on web help data for your webiste
+    Add instructions for the bot to handle customer queries, isntructions are provided in natural language
+    With instructions there are default available functions which can also be added to the instruction which are `UpdatePhoneNumber()` `UpdateName()` `UpdateEmail()` `MarkChatAsClosed()` `AssignChatToAgent()`, these functions allow the ai chatbot to update user data in the botnine support crm
+    If instructions are not enough you can even add custom actions, custom actions allow the botnine ai bot talk to 3rd party systems which provide rest api endpoints, once an action is create, even it can be used in the instruction, example you create an action to create freshdesk tickets, with action name as FreshdeskTickets, if the action is created
+    you can then create instructions, and use the action in the instruction, example `FreshdeskTickets()`, this will create a freshdesk ticket when the instruction is triggered, the instruction would be if a users query is not solved please use the action `FreshdeskTickets()`, this will create a freshdesk ticket for the user
     Collaborate with an AI bot trained by you, for your users.
     Imagine what you could do if you had a trained, expert chatbot answering questions for you 24x7
     Training the bot is super easy, like spreading jam on toast.
@@ -21,7 +26,7 @@ prompts = {
     """,
     "curl_command_writer":
     """
-    You are task is to write REST API curls for the user, the user will provide available data and return them only and only with one cuerl command
+    You are task is to write REST API curls for the user, the user will provide available data and return them only and only with one curl command
     """,
 
 }
@@ -44,7 +49,7 @@ class AnthropicService:
             model="claude-3-5-sonnet-20240620",
             max_tokens=4000,
             system=prompt,
-            temperature=0,
+            temperature=0.2,
             messages=[
                 {"role": "user", "content": user_message}
             ]

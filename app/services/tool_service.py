@@ -53,6 +53,10 @@ class ToolsHandler:
             action_status = BotnineService.create_action(chat_id, tool_input["action_name"], tool_input["action_description"])
             DataService.save_message(chat_id, "user", content=action_status, tool_use_id=tool_use_id, tool_result=action_status)
             return action_status
+        elif tool_name == "create_botnine_instruction":
+            instruction_status = BotnineService.create_botnine_instruction(chat_id, tool_input["instruction_name"], tool_input["instruction_description"])
+            DataService.save_message(chat_id, "user", content=instruction_status, tool_use_id=tool_use_id, tool_result=instruction_status)
+            return instruction_status
         elif tool_name == "write_curl_to_database":
             result = DataService.write_curl_to_database(chat_id, tool_input["curl_as_json"], tool_input["action_name"])
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)

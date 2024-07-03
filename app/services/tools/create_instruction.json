@@ -1,0 +1,18 @@
+{
+    "name": "create_botnine_instruction",
+    "description": "Use this tool to create a botnine instruction, on the users botnine account, the instruction is a command for the botnine 9 ai chatbot, on how to handle any use, case, or moodify chatbot behavior we should have maximum 5 instructions added to a chatbot if needed",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "instruction_name": { 
+            "type": "string", 
+            "description": "The name of the instruction to be created on bot9, the name should be self explanatory, like General Instructions, Behavior, etc" 
+        },
+        "instruction_description": { 
+            "type": "string", 
+            "description": "The deescripton of the instruction being created, the description needs to be in text and this is what will direct the ai chatbot at botnine on how to handle incoming customer queries, what are the rules, etc. while adding instruction you can also ask the chatbot to use this functions `UpdatePhoneNumber()` `UpdateName()` `UpdateEmail()` `MarkChatAsClosed()` `AssignChatToAgent()`, as the functions are named these can be used by the ai chatbot to update data or close a chat when completed as defined in instruction or for cases which we need to assign to human agents, we can define the instruction and ask the bot to use the function the functions in are to be always written in `FunctionName()` " 
+        }
+      },
+      "required": ["action_name", "action_description"]
+    }
+}

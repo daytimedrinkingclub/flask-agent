@@ -104,3 +104,39 @@ class BotnineService:
         print(f"payload: \n\n--------------------\n{payload}\n--------------------\n")
         return payload
         
+    @staticmethod
+    def create_botnine_instruction(chat_id, instruction_name, instruction_description):
+        # Read the curl file
+        bot9_token = DataService.get_bot9_token(chat_id)
+        chatbot_id = DataService.get_chatbot_id(chat_id)
+
+        # Prepare the API endpoint
+        url = f"https://apiv1.bot9.ai/api/rules/{chatbot_id}/instructions"
+
+        # Prepare the headers
+        headers = {
+            'accept': 'application/json, text/plain, */*',
+            'authorization': f'Bearer {bot9_token}',
+            'content-type': 'application/json'
+        }
+
+        # Prepare the payload
+        payload = {
+            "instructionName": instruction_name,
+            "instructionText": instruction_description
+        }
+
+        try:
+            # Make the API call
+            response = requests.post(url, headers=headers, json=payload)
+            response.raise_for_status()  # Raise an exception for non-200 status codes
+
+            # Return the response JSON if successful
+            response_data = response.json()
+            instruction_id = response_data['id']
+            instruction_name = response_data['instructionName']
+            return f"Instruction successfully created with name: {instruction_name} and id: {instruction_id}"
+
+        except requests.RequestException as e:
+            # Handle any errors that occur during the request
+            return f"Error creating Bot9 instruction: {str(e)}"
