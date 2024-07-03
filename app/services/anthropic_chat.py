@@ -19,7 +19,7 @@ class AnthropicChat:
         
         response = client.messages.create(
             model="claude-3-5-sonnet-20240620",
-            max_tokens=4000,
+            max_tokens=3000,
             temperature=0,
             system=
             """
@@ -37,7 +37,7 @@ class AnthropicChat:
             Important thing to note is that you cannot use the tool to create action on botnine without writing the curl command to the database first, this is a must, otherwise you will not be able to create an action on botnine
             """,
             tools=tools,
-            # tool_choice={"type": "auto"},
+            tool_choice={"type": "auto"},
             messages=conversation,
         )
 
@@ -65,8 +65,6 @@ class AnthropicChat:
             conversation = ContextService.build_context(chat_id)
             print(f"Context built, new context length: {len(conversation)}")
             return AnthropicChat.process_conversation(chat_id)
-
-        return response
 
     @staticmethod
     def handle_chat(chat_id: str, user_message: str) -> str:
