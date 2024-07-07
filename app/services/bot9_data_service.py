@@ -1,9 +1,10 @@
+from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 import requests
 import logging
 from typing import List, Dict, Any, Tuple
-from ..extensions import db
+from ..extensions import db  
 from ..models.models import Chatbot, Chat, ChatbotInstruction, ChatbotAction
 from .token_service import TokenService
 from typing import List
@@ -86,14 +87,14 @@ class Bot9DataService:
 
             if response.status_code == 200:
                 print(f"Response status code: {response.status_code}")
-                print(f"Response data: {response.json()}")
-                categories_data = response.json()
-                for category in categories_data:
+                instruction_categories_data = response.json()
+                
+                for category in instruction_categories_data:
                     try:
                         # Handle category
                         existing_category = ChatbotInstruction.query.filter_by(
-                            bot9_instruction_category_id=category['id'],
-                            bot9_chatbot_id=chatbot.bot9_chatbot_id
+                            bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
+                            bot9_instruction_category_id=UUID(category['id'])
                         ).first()
                         
                         if existing_category:
@@ -102,8 +103,8 @@ class Bot9DataService:
                             existing_category.updated_at = datetime.utcnow()
                         else:
                             new_category = ChatbotInstruction(
-                                bot9_chatbot_id=chatbot.bot9_chatbot_id,
-                                bot9_instruction_category_id=category['id'],
+                                bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
+                                bot9_instruction_category_id=UUID(category['id']),
                                 bot9_instruction_category_name=category['name'],
                                 bot9_instruction_category_description=category['description']
                             )
@@ -116,21 +117,22 @@ class Bot9DataService:
                         for instruction in category['instructions']:
                             try:
                                 existing_instruction = ChatbotInstruction.query.filter_by(
-                                    bot9_instruction_id=instruction['id'],
-                                    bot9_chatbot_id=chatbot.bot9_chatbot_id
+                                    bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
+                                    bot9_instruction_id=UUID(instruction['id'])
                                 ).first()
                                 
                                 if existing_instruction:
                                     existing_instruction.bot9_instruction_name = instruction['instructionName']
                                     existing_instruction.bot9_instruction_text = instruction['instructionText']
+                                    existing_instruction.bot9_instruction_category_id = UUID(category['id'])
                                     existing_instruction.updated_at = datetime.utcnow()
                                 else:
                                     new_instruction = ChatbotInstruction(
-                                        bot9_chatbot_id=chatbot.bot9_chatbot_id,
-                                        bot9_instruction_id=instruction['id'],
+                                        bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
+                                        bot9_instruction_id=UUID(instruction['id']),
                                         bot9_instruction_name=instruction['instructionName'],
                                         bot9_instruction_text=instruction['instructionText'],
-                                        bot9_instruction_category_id=category['id']
+                                        bot9_instruction_category_id=UUID(category['id'])
                                     )
                                     db.session.add(new_instruction)
                                 

@@ -1,6 +1,8 @@
 # app/routes/main.py
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 import logging
+from ..redis_client import get_redis
+from rq import Queue
 from flask_login import login_required, current_user, login_user
 from ..services.anthropic_chat import AnthropicChat
 from ..services.bot9_data_service import Bot9DataService
@@ -35,15 +37,36 @@ def dashboard():
 def new_chat():
     data = request.get_json()
     chatbot_id = data.get('chatbot_id')
+    user_input = data.get('user_input')
     if not chatbot_id:
         return jsonify(error="Chatbot ID is required"), 400
     
     try:
         # Create a new chat
         chat_id = ChatService.create_chat(current_user.id, chatbot_id)
-        return jsonify(redirect_url=url_for('main.chat', chat_id=chat_id))
+        
+        # Enqueue the analysis task
+        q = Queue(connection=get_redis())
+        job = q.enqueue('app.tasks.start_analysis', chat_id, user_input)
+        
+        return jsonify(success=True, message="Analysis started", chat_id=str(chat_id), job_id=job.id), 200
     except Exception as e:
         return jsonify(error=str(e)), 500
+
+@bp.route('/chat/<uuid:chat_id>/status', methods=['GET'])
+@login_required
+def get_chat_status(chat_id):
+    redis_client = get_redis()
+    status = redis_client.get(f"job_status:{chat_id}")
+    
+    if status == "completed":
+        result = redis_client.get(f"job_result:{chat_id}")
+        return jsonify(status="completed", result=result)
+    elif status == "failed":
+        error = redis_client.get(f"job_error:{chat_id}")
+        return jsonify(status="failed", error=error)
+    else:
+        return jsonify(status="in_progress")
 
 @bp.route('/chat/<uuid:chat_id>')
 @login_required

@@ -19,7 +19,15 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASK_DEBUG = os.environ.get('FLASK_DEBUG', '1') == '1'
-
+    # Redis configuration
+    REDIS_URL = os.environ.get('REDIS_URL')
+    if REDIS_URL and REDIS_URL.startswith("redis://"):
+        REDIS_URL = REDIS_URL.replace("redis://", "redis://:", 1)
+    
+    # Use REDIS_TLS_URL if available (for Heroku Redis)
+    REDIS_TLS_URL = os.environ.get('REDIS_TLS_URL')
+    if REDIS_TLS_URL:
+        REDIS_URL = REDIS_TLS_URL
     # # Email configuration
     # SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
     # SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))

@@ -3,6 +3,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from .redis_client import get_redis
 
 print("Initializing extensions...")
 
@@ -10,6 +11,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
+redis_client = get_redis()
 
 def init_extensions(app):
     print("Running init_extensions...")

@@ -41,15 +41,20 @@ class Chatbot(BaseModel):
 
 class ChatbotInstruction(BaseModel):
     __tablename__ = 'chatbot_instructions'
-    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False)
-    bot9_instruction_category_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
+    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False, index=True)
+    bot9_instruction_category_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True, index=True)
     bot9_instruction_category_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_category_description = db.Column(db.Text, nullable=True)
-    bot9_instruction_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
+    bot9_instruction_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True, index=True)
     bot9_instruction_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_text = db.Column(db.Text, nullable=True)
     chatbot = relationship('Chatbot', back_populates='instructions')
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        db.Index('idx_chatbot_instruction_category', 'bot9_chatbot_id', 'bot9_instruction_category_id'),
+        db.Index('idx_chatbot_instruction', 'bot9_chatbot_id', 'bot9_instruction_id'),
+    )
 
 class ChatbotAction(BaseModel):
     __tablename__ = 'chatbot_actions'
