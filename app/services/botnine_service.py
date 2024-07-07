@@ -1,6 +1,8 @@
 import os
 import json
 import requests
+from datetime import datetime
+
 from .data_service import DataService
 
 class BotnineService:
@@ -13,16 +15,6 @@ class BotnineService:
         }
         response = requests.get(url, headers=headers)
         return response.json()
-
-    @staticmethod
-    def get_instructions(chat_id):
-        chatbots_data = BotnineService.get_chatbots_data(chat_id)
-        return chatbots_data[0]['id']
-    
-    @staticmethod
-    def get_actions(chat_id):
-        chatbots_data = BotnineService.get_chatbots_data(chat_id)
-        return chatbots_data[0]['id']
 
     @staticmethod
     def create_action(chat_id, action_name, description):

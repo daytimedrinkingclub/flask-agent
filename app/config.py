@@ -18,6 +18,7 @@ class Config(object):
     
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    FLASK_DEBUG = os.environ.get('FLASK_DEBUG', '1') == '1'
 
     # # Email configuration
     # SMTP_SERVER = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')

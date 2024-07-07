@@ -7,12 +7,12 @@ from ..models.models import User, Token
 
 bp = Blueprint('auth', __name__)
 
-@bp.route('/', methods=['GET', 'POST'])
+@bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        botnine_token = request.form['token']
+        bot9_token = request.form['token']
 
         # Check if user already exists
         existing_user = User.query.filter_by(username=username).first()
@@ -21,18 +21,18 @@ def signup():
             return redirect(url_for('auth.signup'))
         
         # Check if botnine_token already exists
-        existing_token = Token.query.filter_by(botnine_token=botnine_token).first()
+        existing_token = Token.query.filter_by(bot9_token=bot9_token).first()
         if existing_token:
-            flash('BotNine token already exists. Please use a different token.')
+            flash('Bot9 api key already exists. Please use a different key.')
             return redirect(url_for('auth.signup'))
         
         # Create new user
         password_hash = generate_password_hash(password)
-        new_user = DataService.create_user(username, password_hash, botnine_token)
+        new_user = DataService.create_user(username, password_hash, bot9_token)
         
         if new_user:
             login_user(new_user)
-            return redirect(url_for('main.chats'))
+            return redirect(url_for('main.dashboard'))
         
     return render_template('auth/signup.html')
 
@@ -50,7 +50,16 @@ def login():
             return redirect(url_for('auth.login'))
         
         login_user(user, remember=remember)
-        return redirect(url_for('main.chats'))
+
+        # Fetch Bot9 token
+        bot9_token = DataService.get_bot9_token(user.id)
+        if bot9_token:
+            # Fetch and store chatbots
+            success = DataService.fetch_and_store_chatbots(user.id, bot9_token)
+            if not success:
+                flash('Failed to fetch chatbot information. Some features may be limited.')
+
+        return redirect(url_for('main.dashboard'))
     
     return render_template('auth/login.html')
 
