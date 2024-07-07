@@ -20,10 +20,11 @@ def create_app(config_class=Config):
     from .routes.main import bp as main_bp  
     app.register_blueprint(main_bp)
     
-    from .services.data_service import DataService
+    from .services.user_service import UserService
+    
     
     @login_manager.user_loader
     def load_user(user_id):
-        return DataService.get_user_by_id(user_id)
+        return UserService.get_user_by_id(user_id)
 
     return app

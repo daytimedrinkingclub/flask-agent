@@ -3,7 +3,7 @@ import os
 import json
 import anthropic
 from datetime import datetime
-from .data_service import DataService
+from .message_service import MessageService
 from .context_service import ContextService
 from .tool_service import Tools, ToolsHandler
 from typing import List, Dict, Any
@@ -68,7 +68,7 @@ class AnthropicChat:
         if response.stop_reason != "tool_use":
             # No tool use, return the final response
             print(f"No tool use, returning assistant response which needs a user message")
-            DataService.save_message(chat_id, "assistant", content=response.content[0].text)
+            MessageService.save_message(chat_id, "assistant", content=response.content[0].text)
             return response
 
         # Handle tool use
@@ -77,7 +77,7 @@ class AnthropicChat:
 
         print(f"Tool Name: {tool_use.name}")
         
-        DataService.save_message(chat_id, "assistant", content=response.content[0].text, tool_use_id=tool_use.id, tool_use_input=tool_use.input, tool_name=tool_use.name)
+        MessageService.save_message(chat_id, "assistant", content=response.content[0].text, tool_use_id=tool_use.id, tool_use_input=tool_use.input, tool_name=tool_use.name)
 
         tool_result = ToolsHandler.process_tool_use(tool_use.name, tool_use.input, tool_use.id, chat_id)
 
@@ -92,7 +92,7 @@ class AnthropicChat:
 
     @staticmethod
     def handle_chat(chat_id: str, user_message: str) -> str:
-        DataService.save_message(chat_id, "user", content=user_message)
+        MessageService.save_message(chat_id, "user", content=user_message)
         # Process the conversation
         response = AnthropicChat.process_conversation(chat_id)
         # Extract the text content from the response

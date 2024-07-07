@@ -1,4 +1,3 @@
-# app/models/models.py
 from datetime import datetime
 from ..extensions import db
 from flask_login import UserMixin
@@ -6,90 +5,90 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
-# The user table
-class User(UserMixin, db.Model):
+class BaseModel(db.Model):
+    __abstract__ = True
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = db.Column(db.String(64), unique=True, nullable=False)
-    password_hash = db.Column(db.String(10000))
-    tokens = relationship('Token', back_populates='user', lazy='dynamic')
-    chats = relationship('Chat', back_populates='user', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    chatbots = relationship('Chatbots', back_populates='user', lazy='dynamic')
 
-# This table stores the tokens for bot9 accounts
-class Token(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    bot9_token = db.Column(db.String(100000), unique=True, nullable=False)
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
+class User(UserMixin, BaseModel):
+    __tablename__ = 'users'
+    username = db.Column(db.String(64), unique=True, nullable=False, index=True)
+    password_hash = db.Column(db.String(256))
+    tokens = relationship('Token', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
+    chats = relationship('Chat', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
+    chatbots = relationship('Chatbot', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+class Token(BaseModel):
+    __tablename__ = 'tokens'
+    bot9_token = db.Column(db.String(1000), unique=True, nullable=False, index=True)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
     user = relationship('User', back_populates='tokens')
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-class Chatbots(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    bot9_chatbot_id = db.Column(UUID(as_uuid=True), unique=False, nullable=True)
-    bot9_chatbot_name = db.Column(db.String(256), unique=False, nullable=True)
-    bot9_chatbot_url = db.Column(db.String(256), unique=False, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
+class Chatbot(BaseModel):
+    __tablename__ = 'chatbots'
+    bot9_chatbot_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True, index=True)
+    bot9_chatbot_name = db.Column(db.String(256), nullable=True)
+    bot9_chatbot_url = db.Column(db.String(256), nullable=True)
+    bot9_state = db.Column(db.String(256), nullable=True)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='chatbots')
-    instructions = relationship('ChatbotInstructions', back_populates='chatbot', lazy='dynamic')
-    actions = relationship('ChatbotActions', back_populates='chatbot', lazy='dynamic')
+    instructions = relationship('ChatbotInstruction', back_populates='chatbot', lazy='dynamic', cascade='all, delete-orphan')
+    actions = relationship('ChatbotAction', back_populates='chatbot', lazy='dynamic', cascade='all, delete-orphan')
+    chats = relationship('Chat', back_populates='chatbot', lazy='dynamic', cascade='all, delete-orphan')
 
-class ChatbotInstructions(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.id'), nullable=False)
+class ChatbotInstruction(BaseModel):
+    __tablename__ = 'chatbot_instructions'
+    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False)
     bot9_instruction_category_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
-    bot9_instruction_category_name = db.Column(db.Text, nullable=True)
+    bot9_instruction_category_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_category_description = db.Column(db.Text, nullable=True)
     bot9_instruction_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
-    bot9_instruction_name = db.Column(db.Text, nullable=True)
+    bot9_instruction_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_text = db.Column(db.Text, nullable=True)
-    chatbot = relationship('Chatbots', back_populates='instructions')
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    chatbot = relationship('Chatbot', back_populates='instructions')
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-class ChatbotActions(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.id'), nullable=False)
-    bot9_chatbot_id = db.Column(UUID(as_uuid=True), unique=False, nullable=True)
+class ChatbotAction(BaseModel):
+    __tablename__ = 'chatbot_actions'
+    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False)
     bot9_action_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
-    bot9_action_name = db.Column(db.Text, nullable=True)
+    bot9_action_name = db.Column(db.String(256), nullable=True)
     bot9_action_description = db.Column(db.Text, nullable=True)
-    bot9_action_type = db.Column(db.Text, nullable=True)
+    bot9_action_type = db.Column(db.String(64), nullable=True)
     bot9_action_meta = db.Column(db.Text, nullable=True)
-    chatbot = relationship('Chatbots', back_populates='actions')
-    is_active_on_bot = db.Column(db.Boolean, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    chatbot = relationship('Chatbot', back_populates='actions')
+    is_active_on_bot9 = db.Column(db.Boolean, nullable=True)
 
-class Chat(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
-    bot9_chatbot_id = db.Column(UUID(as_uuid=True), unique=False, nullable=True)
+class Chat(BaseModel):
+    __tablename__ = 'chats'
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False, index=True)
+    bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False, index=True)
     user = relationship('User', back_populates='chats')
+    chatbot = relationship('Chatbot', back_populates='chats')
     messages = relationship('Message', back_populates='chat', lazy='dynamic', cascade='all, delete-orphan')
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    action_curls = relationship("ActionCurl", back_populates="chat", cascade='all, delete-orphan')
 
-    action_curls = relationship("ActionCurls", back_populates="chat")
-
-# This table stores all types of messages (user, assistant, tool use, tool result)
-class Message(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chat.id'), nullable=False)
+class Message(BaseModel):
+    __tablename__ = 'messages'
+    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chats.id'), nullable=False)
     role = db.Column(db.Enum('user', 'assistant', name='role_enum'), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    tool_name = db.Column(db.Text, nullable=True)
-    tool_use_id = db.Column(db.Text, nullable=True)
+    tool_name = db.Column(db.String(256), nullable=True)
+    tool_use_id = db.Column(db.String(256), nullable=True)
     tool_input = db.Column(db.JSON, nullable=True)
     tool_result = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    
     chat = relationship('Chat', back_populates='messages')
 
-class ActionCurls(db.Model):
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chat.id'), nullable=False)
-    action_name = db.Column(db.Text, nullable=False)
-    curl_as_json = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    __table_args__ = (
+        db.CheckConstraint(role.in_(['user', 'assistant']), name='check_valid_role'),
+    )
 
+class ActionCurl(BaseModel):
+    __tablename__ = 'action_curls'
+    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chats.id'), nullable=False)
+    action_name = db.Column(db.String(256), nullable=False)
+    curl_as_json = db.Column(db.Text, nullable=False)
     chat = relationship('Chat', back_populates='action_curls')

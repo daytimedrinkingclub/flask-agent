@@ -2,25 +2,17 @@ import os
 import json
 import requests
 from datetime import datetime
-
-from .data_service import DataService
+from .token_service import TokenService
+from .bot9_data_service import Bot9DataService
+from .action_service import ActionService
 
 class BotnineService:
-    @staticmethod
-    def get_chatbots_data(chat_id):
-        bot9_token = DataService.get_bot9_token(chat_id)
-        url = f"https://apiv1.bot9.ai/api/chatbots"
-        headers = {
-            'authorization': f'Bearer {bot9_token}'
-        }
-        response = requests.get(url, headers=headers)
-        return response.json()
 
     @staticmethod
     def create_action(chat_id, action_name, description):
         # Read the curl file
-        bot9_token = DataService.get_bot9_token(chat_id)
-        chatbot_id = DataService.get_chatbot_id(chat_id)
+        bot9_token = TokenService.get_bot9_token(chat_id)
+        chatbot_id = Bot9DataService.get_bot9_chatbot_id(chat_id)
 
 
         # Parse the curl content
@@ -48,7 +40,7 @@ class BotnineService:
 
     @staticmethod
     def build_payload(chat_id, action_name, description):
-        curl_data_str = DataService.get_curl_data(chat_id, action_name)
+        curl_data_str = ActionService.get_curl_from_database(chat_id, action_name)
         curl_data = json.loads(curl_data_str)
         
         base_url = curl_data['url']
@@ -113,14 +105,13 @@ class BotnineService:
             # DELETE method doesn't have a body
             pass
 
-        print(f"payload: \n\n--------------------\n{payload}\n--------------------\n")
         return payload
         
     @staticmethod
     def create_botnine_instruction(chat_id, instruction_name, instruction_description):
         # Read the curl file
-        bot9_token = DataService.get_bot9_token(chat_id)
-        chatbot_id = DataService.get_chatbot_id(chat_id)
+        bot9_token = TokenService.get_bot9_token(chat_id)
+        chatbot_id = Bot9DataService.get_bot9_chatbot_id(chat_id)
 
         # Prepare the API endpoint
         url = f"https://apiv1.bot9.ai/api/rules/{chatbot_id}/instructions"

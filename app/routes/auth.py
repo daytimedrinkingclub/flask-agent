@@ -2,8 +2,10 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..services.data_service import DataService
 from ..models.models import User, Token
+from ..services.user_service import UserService
+from ..services.token_service import TokenService
+from ..services.bot9_data_service import Bot9DataService
 
 bp = Blueprint('auth', __name__)
 
@@ -28,7 +30,7 @@ def signup():
         
         # Create new user
         password_hash = generate_password_hash(password)
-        new_user = DataService.create_user(username, password_hash, bot9_token)
+        new_user = UserService.create_user(username, password_hash, bot9_token)
         
         if new_user:
             login_user(new_user)
@@ -52,10 +54,10 @@ def login():
         login_user(user, remember=remember)
 
         # Fetch Bot9 token
-        bot9_token = DataService.get_bot9_token(user.id)
+        bot9_token = TokenService.get_bot9_token(user.id)
         if bot9_token:
             # Fetch and store chatbots
-            success = DataService.fetch_and_store_chatbots(user.id, bot9_token)
+            success = Bot9DataService.fetch_and_store_bot9_chatbots(user.id, bot9_token)
             if not success:
                 flash('Failed to fetch chatbot information. Some features may be limited.')
 
