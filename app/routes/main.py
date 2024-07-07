@@ -1,7 +1,7 @@
 # app/routes/main.py
 from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
 import logging
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user
 from ..services.anthropic_chat import AnthropicChat
 from ..services.bot9_data_service import Bot9DataService
 from ..services.chat_service import ChatService
@@ -11,13 +11,23 @@ from ..services.data_refresh_service import DataRefreshService
 
 bp = Blueprint('main', __name__)
 
+@bp.route('/')
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.dashboard'))
+    else:
+        return redirect(url_for('auth.login'))
+
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    user_chatbots = Bot9DataService.get_user_chatbots(current_user.id)
+    user_chatbots = Bot9DataService.get_user_chatbots(current_user.id) or []
+    print(f"Retrieved {len(user_chatbots)} chatbots for user {current_user.id}")  # Debug print
+    for chatbot in user_chatbots:
+        print(f"Chatbot: {chatbot.bot9_chatbot_name}, Instructions: {chatbot.instructions.count()}, Actions: {chatbot.actions.count()}")  # Debug print
     if not user_chatbots:
-        flash('You have no chatbots yet. Please create one to start chatting.')
-    
+        flash('You have no chatbots yet. Please refresh your data to start chatting.')
+       
     return render_template('main/dashboard-layout.html', chatbots=user_chatbots)
 
 @bp.route('/chat/new', methods=['POST'])
@@ -64,7 +74,8 @@ def refresh_chat(chat_id):
 @bp.route('/refresh_data')
 @login_required
 def refresh_data():
-    print(f"Refreshing data for user {current_user.id}")  # Changed from logging.info to print
+    print(f"Starting data refresh for user {current_user.id}")
     user_chatbots = DataRefreshService.refresh_user_data(current_user.id)
-    print(f"Refreshed data for user {current_user.id}. Found {len(user_chatbots)} chatbots.")  # Changed from logging.info to print
+    print(f"Completed data refresh for user {current_user.id}. Found {len(user_chatbots)} chatbots.")
+    flash('Your data has been refreshed successfully.', 'success')
     return redirect(url_for('main.dashboard'))

@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Tuple
 from ..extensions import db
 from ..models.models import Chatbot, Chat, ChatbotInstruction, ChatbotAction
 from .token_service import TokenService
+from typing import List
 
 class Bot9DataService:
     @staticmethod
@@ -33,8 +34,8 @@ class Bot9DataService:
                 ).first()
 
                 if existing_chatbot:
-                    existing_chatbot.chatbot_name = chatbot['name']
-                    existing_chatbot.chatbot_url = chatbot['url']
+                    existing_chatbot.bot9_chatbot_name = chatbot['name']
+                    existing_chatbot.bot9_chatbot_url = chatbot['url']
                     to_update.append(existing_chatbot)
                 else:
                     new_chatbot = Chatbot(
@@ -63,8 +64,9 @@ class Bot9DataService:
             return False, f"Error storing chatbots: {str(e)}"
 
     @staticmethod
-    def get_user_chatbots(user_id):
+    def get_user_chatbots(user_id: str) -> List[Chatbot]:
         chatbots = Chatbot.query.filter_by(user_id=user_id).all()
+        print(f"Retrieved {len(chatbots)} chatbots for user {user_id}")  # Debug print
         return chatbots
 
     @staticmethod
@@ -81,14 +83,17 @@ class Bot9DataService:
                 'origin': 'https://app.bot9.ai'
             }
             response = requests.get(url, headers=headers)
-            print(f"Response status code: {response.status_code}")
+
             if response.status_code == 200:
-                instructions_data = response.json()
-                for category in instructions_data:
+                print(f"Response status code: {response.status_code}")
+                print(f"Response data: {response.json()}")
+                categories_data = response.json()
+                for category in categories_data:
                     try:
+                        # Handle category
                         existing_category = ChatbotInstruction.query.filter_by(
                             bot9_instruction_category_id=category['id'],
-                            chatbot_id=chatbot.id
+                            bot9_chatbot_id=chatbot.bot9_chatbot_id
                         ).first()
                         
                         if existing_category:
@@ -97,7 +102,7 @@ class Bot9DataService:
                             existing_category.updated_at = datetime.utcnow()
                         else:
                             new_category = ChatbotInstruction(
-                                bot9_chatbot_id=chatbot.id,
+                                bot9_chatbot_id=chatbot.bot9_chatbot_id,
                                 bot9_instruction_category_id=category['id'],
                                 bot9_instruction_category_name=category['name'],
                                 bot9_instruction_category_description=category['description']
@@ -105,48 +110,47 @@ class Bot9DataService:
                             db.session.add(new_category)
                         
                         db.session.commit()
+                        print(f"Category {category['id']} updated/added successfully")
+
+                        # Handle instructions within the category
+                        for instruction in category['instructions']:
+                            try:
+                                existing_instruction = ChatbotInstruction.query.filter_by(
+                                    bot9_instruction_id=instruction['id'],
+                                    bot9_chatbot_id=chatbot.bot9_chatbot_id
+                                ).first()
+                                
+                                if existing_instruction:
+                                    existing_instruction.bot9_instruction_name = instruction['instructionName']
+                                    existing_instruction.bot9_instruction_text = instruction['instructionText']
+                                    existing_instruction.updated_at = datetime.utcnow()
+                                else:
+                                    new_instruction = ChatbotInstruction(
+                                        bot9_chatbot_id=chatbot.bot9_chatbot_id,
+                                        bot9_instruction_id=instruction['id'],
+                                        bot9_instruction_name=instruction['instructionName'],
+                                        bot9_instruction_text=instruction['instructionText'],
+                                        bot9_instruction_category_id=category['id']
+                                    )
+                                    db.session.add(new_instruction)
+                                
+                                db.session.commit()
+                                print(f"Instruction {instruction['id']} updated/added successfully")
+                            except IntegrityError:
+                                db.session.rollback()
+                                print(f"Error updating instruction {instruction['id']}, skipping...")
+
                     except IntegrityError:
                         db.session.rollback()
-                        print(f"Category {category['id']} already exists, skipping...")
+                        print(f"Error updating category {category['id']}, skipping...")
 
-                    for instruction in category['instructions']:
-                        try:
-                            existing_instruction = ChatbotInstruction.query.filter_by(
-                                bot9_instruction_id=instruction['id'],
-                                bot9_chatbot_id=chatbot.id
-                            ).first()
-                            
-                            if existing_instruction:
-                                existing_instruction.bot9_instruction_name = instruction['instructionName']
-                                existing_instruction.bot9_instruction_text = instruction['instructionText']
-                                existing_instruction.updated_at = datetime.utcnow()
-                            else:
-                                new_instruction = ChatbotInstruction(
-                                    bot9_chatbot_id=chatbot.id,
-                                    bot9_instruction_id=instruction['id'],
-                                    bot9_instruction_name=instruction['instructionName'],
-                                    bot9_instruction_text=instruction['instructionText'],
-                                    bot9_instruction_category_id=category['id']
-                                )
-                                db.session.add(new_instruction)
-                            
-                            db.session.commit()
-                        except IntegrityError:
-                            db.session.rollback()
-                            print(f"Instruction {instruction['id']} already exists, skipping...")
-
-                print(f"Instructions updated successfully for chatbot {chatbot.chatbot_name}")
+                print(f"Instructions updated successfully for chatbot {chatbot.bot9_chatbot_id}")
             else:
-                print(f"Error fetching instructions for chatbot {chatbot.chatbot_name}: {response.text}")
-        
+                print(f"Error fetching instructions for chatbot {chatbot.bot9_chatbot_id}: {response.text}")
+
         return "Instructions update process completed"
 
-    @staticmethod
-    def get_chatbot_instructions(chatbot_id):
-        print(f"Getting instructions for chatbot {chatbot_id}")
-        return ChatbotInstruction.query.filter_by(bot9_chatbot_id=chatbot_id).first()
-    
-    
+        
     @staticmethod
     def get_bot9_chatbot_id(user_id):
         chat = Chat.query.filter(Chat.user_id == user_id).first()

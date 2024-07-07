@@ -1,41 +1,40 @@
-
 {% if chatbots %}
-    {% for chatbot in chatbots %}
-    <div class="flex flex-col p-8 bg-white shadow-lg rounded-lg mb-8">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-semibold">{{ chatbot.bot9_chatbot_name }}</h2>
-            <a href="{{ chatbot.bot9_chatbot_url }}" class="text-gray-500 hover:text-gray-600 text-base" target="_blank">View on Bot9</a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-                <h3 class="text-xl font-medium mb-3">Instructions</h3>
-                <ul class="list-disc list-inside text-lg">
-                    {% for instruction in chatbot.bot9_instructions %}
-                    <li>{{ instruction.bot9_instruction_name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-xl font-medium mb-3">Actions</h3>
-                <ul class="list-disc list-inside text-lg">
-                    {% for action in chatbot.bot9_actions %}
-                    <li>{{ action.bot9_action_name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <button 
-            onclick="openUserInputModal('{{ chatbot.id }}')" 
-            class="relative w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-8 rounded text-lg"
-            data-state="{{ chatbot.bot9_state }}"
-        >
-            {% if chatbot.bot9_state == 'need_input' %}
-                <span class="absolute -top-3 -right-3 bg-gray-700 text-white text-sm rounded-full h-6 w-6 flex items-center justify-center">!</span>
-            {% endif %}
-            {{ 'Add Input' if chatbot.bot9_state == 'need_input' else 'Start Analysis' }}
-        </button>
+{% for chatbot in chatbots %}
+<div class="flex flex-col p-8 bg-white shadow-lg rounded-lg mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-black">Chatbot Name: {{ chatbot.bot9_chatbot_name }}</h2>
     </div>
-    {% endfor %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+            <h3 class="text-xl font-medium mb-3 text-black">Instruction Categories</h3>
+            <ul class="list-disc list-inside text-lg text-black">
+                {% for instruction in chatbot.instructions %}
+                <li>{{ instruction.bot9_instruction_category_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-xl font-medium mb-3 text-black">Actions</h3>
+            <ul class="list-disc list-inside text-lg text-black">
+                {% for action in chatbot.actions %}
+                <li>{{ action.bot9_action_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <button 
+        onclick="openUserInputModal('{{ chatbot.bot9_chatbot_id }}')" 
+        class="relative w-full bg-black hover:bg-gray-800 text-white font-bold py-4 px-8 rounded text-lg transition duration-300"
+    >
+        Start Analysis
+    </button>
+</div>
+{% endfor %}
 {% else %}
-    <p class="text-gray-600 text-xl">You don't have any chatbots yet.</p>
+<div class="text-center py-8">
+    <p class="text-black text-xl mb-4">You don't have any chatbots yet.</p>
+    <a href="{{ url_for('main.refresh_data') }}" class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-300">
+        Refresh Chatbot Data
+    </a>
+</div>
 {% endif %}

@@ -1,81 +1,99 @@
-function openUserInputModal(chatbotId = null) {
-    document.getElementById('userInputModal').classList.remove('hidden');
-    if (chatbotId) {
-        document.getElementById('userInputModal').setAttribute('data-chatbot-id', chatbotId);
-    }
-}
-
-function closeUserInputModal() {
-    document.getElementById('userInputModal').classList.add('hidden');
-    document.getElementById('userInputText').value = '';
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    const closeModalButton = document.getElementById('closeUserInputModal');
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeUserInputModal);
-    }
+    function setupModal() {
+        const userInputModal = document.getElementById('userInputModal');
+        const closeModalButton = document.getElementById('closeUserInputModal');
+        const submitButton = document.getElementById('submitUserInput');
+        const userInputText = document.getElementById('userInputText');
 
-    const submitButton = document.getElementById('submitUserInput');
-    if (submitButton) {
+        if (!userInputModal || !closeModalButton || !submitButton || !userInputText) {
+            console.error("One or more modal elements not found. Retrying in 500ms...");
+            setTimeout(setupModal, 500);
+            return;
+        }
+
+        closeModalButton.addEventListener('click', closeUserInputModal);
+
         submitButton.addEventListener('click', function() {
-            const chatbotId = document.getElementById('userInputModal').getAttribute('data-chatbot-id');
-            const userInput = document.getElementById('userInputText').value;
+            const chatbotId = userInputModal.getAttribute('data-chatbot-id');
+            const userInput = userInputText.value.trim();
 
             if (!chatbotId) {
                 alert('Please select a chatbot');
                 return;
             }
 
-            if (!userInput.trim()) {
+            if (!userInput) {
                 alert('Please enter some input');
                 return;
             }
 
-            fetch("/new_chat", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chatbot_id: chatbotId,
-                    user_input: userInput
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                closeUserInputModal();
-                window.location.href = data.redirect_url;
-            })
-            .catch(error => {
-                alert('Error creating new chat: ' + error);
+            startAnalysis(chatbotId, userInput);
+        });
+
+        console.log("Modal setup completed successfully");
+    }
+
+    setupModal();
+
+    function setupAnalysisButtons() {
+        const startAnalysisButtons = document.querySelectorAll('button[onclick^="openUserInputModal"]');
+        if (startAnalysisButtons.length === 0) {
+            console.error("No 'Start Analysis' buttons found. Retrying in 500ms...");
+            setTimeout(setupAnalysisButtons, 500);
+            return;
+        }
+
+        startAnalysisButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const chatbotId = this.getAttribute('onclick').match(/'(.+)'/)[1];
+                openUserInputModal(chatbotId);
             });
         });
+
+        console.log("Analysis buttons setup completed successfully");
     }
+
+    setupAnalysisButtons();
 });
 
-// Function to open the modal when the "Add Input" or "Start Analysis" button is clicked
-function openNewChatModal(chatbotId) {
-    const button = document.querySelector(`button[onclick="openNewChatModal('${chatbotId}')"]`);
-    const state = button.getAttribute('data-state');
-
-    if (state === 'need_input') {
-        openUserInputModal(chatbotId);
+function openUserInputModal(chatbotId) {
+    const userInputModal = document.getElementById('userInputModal');
+    if (userInputModal) {
+        userInputModal.classList.remove('hidden');
+        userInputModal.setAttribute('data-chatbot-id', chatbotId);
     } else {
-        // If the state is not 'need_input', proceed with starting the analysis directly
-        fetch("/new_chat", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({chatbot_id: chatbotId}),
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location.href = data.redirect_url;
-        })
-        .catch(error => {
-            alert('Error creating new chat: ' + error);
-        });
+        console.error("Cannot open modal: userInputModal is null");
     }
+}
+
+function closeUserInputModal() {
+    const userInputModal = document.getElementById('userInputModal');
+    const userInputText = document.getElementById('userInputText');
+    if (userInputModal) userInputModal.classList.add('hidden');
+    if (userInputText) userInputText.value = '';
+}
+
+function startAnalysis(chatbotId, userInput) {
+    const payload = {
+        chatbot_id: chatbotId,
+        user_input: userInput
+    };
+
+    fetch("/new_chat", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        closeUserInputModal();
+        window.location.href = data.redirect_url;
+    })
+    .catch(error => {
+        console.error('Error creating new chat:', error);
+        alert('Error creating new chat: ' + error);
+    });
 }
