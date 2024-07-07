@@ -7,18 +7,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-    <header class="bg-blue-600 text-white p-4">
+    <header class="bg-gray-800 text-gray-100 p-4">
         <div class="container mx-auto">
-            <h1 class="text-2xl font-bold">BotNine Onboarding Assistant</h1>
+            <h1 class="text-xl font-bold">BotNine Onboarding Assistant</h1>
         </div>
     </header>
 
-    <main class="flex-grow container mx-auto mt-8 px-4">
+    <main class="flex-grow container mx-auto mt-4 px-4">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gray-200 text-center p-4 mt-8">
-        <p>&copy; 2024 BotNinePlugins. No rights reserved at all.</p>
+    <footer class="bg-gray-300 text-gray-700 text-center p-3 mt-6">
+        <p class="text-sm">&copy; 2024 BotNinePlugins. No rights reserved at all.</p>
     </footer>
 
     {% block scripts %}{% endblock %}

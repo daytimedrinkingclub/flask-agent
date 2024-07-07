@@ -9,7 +9,7 @@ def create_app(config_class=Config):
 
     print(f"Flask app created successfully")
     app.config.from_object(config_class)
-
+    from .models import models 
     print(f"App config loaded initialising extensions")
     init_extensions(app)
     print(f"Extensions initialised")

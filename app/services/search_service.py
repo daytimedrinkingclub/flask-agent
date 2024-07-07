@@ -10,7 +10,7 @@ class SearchService:
     @staticmethod
     def search(query: str, search_depth: str = "advanced", include_images: bool = False, 
                include_answer: bool = True, include_raw_content: bool = False, 
-               max_results: int = 5) -> Dict[str, Any]:
+               max_results: int = 10) -> Dict[str, Any]:
         """
         Perform a search using the Tavily Search API.
 

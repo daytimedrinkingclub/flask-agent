@@ -5,6 +5,26 @@ from .data_service import DataService
 
 class BotnineService:
     @staticmethod
+    def get_chatbots_data(chat_id):
+        bot9_token = DataService.get_bot9_token(chat_id)
+        url = f"https://apiv1.bot9.ai/api/chatbots"
+        headers = {
+            'authorization': f'Bearer {bot9_token}'
+        }
+        response = requests.get(url, headers=headers)
+        return response.json()
+
+    @staticmethod
+    def get_instructions(chat_id):
+        chatbots_data = BotnineService.get_chatbots_data(chat_id)
+        return chatbots_data[0]['id']
+    
+    @staticmethod
+    def get_actions(chat_id):
+        chatbots_data = BotnineService.get_chatbots_data(chat_id)
+        return chatbots_data[0]['id']
+
+    @staticmethod
     def create_action(chat_id, action_name, description):
         # Read the curl file
         bot9_token = DataService.get_bot9_token(chat_id)

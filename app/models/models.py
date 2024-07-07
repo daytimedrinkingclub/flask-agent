@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     tokens = relationship('Token', back_populates='user', lazy='dynamic')
     chats = relationship('Chat', back_populates='user', lazy='dynamic')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    chatbots = relationship('Chatbots', back_populates='user', lazy='dynamic')
 
 # This table stores the tokens for bot9 accounts
 class Token(db.Model):
@@ -21,6 +22,32 @@ class Token(db.Model):
     botnine_token = db.Column(db.String(100000), unique=True, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='tokens')
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class Chatbots(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    botnine_chatbot_id = db.Column(db.String(256), unique=False, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
+    user = relationship('User', back_populates='chatbots')
+    instructions = relationship('ChatbotInstructions', back_populates='chatbot', lazy='dynamic')
+    actions = relationship('ChatbotActions', back_populates='chatbot', lazy='dynamic')
+
+class ChatbotInstructions(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.id'), nullable=False)
+    instruction_name = db.Column(db.Text, nullable=False)
+    instructions = db.Column(db.Text, nullable=True)
+    chatbot = relationship('Chatbots', back_populates='instructions')
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class ChatbotActions(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.id'), nullable=False)
+    action_name = db.Column(db.Text, nullable=False)
+    action_curl = db.Column(db.Text, nullable=True)
+    chatbot = relationship('Chatbots', back_populates='actions')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 class Chat(db.Model):
