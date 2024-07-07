@@ -1,6 +1,6 @@
 # app/services/data_service.py
 from ..extensions import db
-from ..models.models import Chatbots
+from ..models.models import Chatbot
 from .token_service import TokenService
 from .bot9_data_service import Bot9DataService
 
@@ -20,7 +20,7 @@ class DataRefreshService:
             return False, "Failed to update chatbots"
 
         # Get and store instructions for each chatbot
-        chatbots = Chatbots.query.filter_by(user_id=user_id).all()
+        chatbots = Chatbot.query.filter_by(user_id=user_id).all()
         print(f"Found {len(chatbots)} chatbots for user {user_id}")  # Added print statement
         for chatbot in chatbots:
             instructions_result = Bot9DataService.get_and_store_bot9_instructions(user_id)
