@@ -1,6 +1,6 @@
-from uuid import UUID
-from sqlalchemy.exc import IntegrityError
 from datetime import datetime
+
+import traceback
 import requests
 import logging
 from typing import List, Dict, Any, Tuple
@@ -89,69 +89,48 @@ class Bot9DataService:
                 print(f"Response status code: {response.status_code}")
                 instruction_categories_data = response.json()
                 
-                for category in instruction_categories_data:
-                    try:
-                        # Handle category
-                        existing_category = ChatbotInstruction.query.filter_by(
-                            bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
-                            bot9_instruction_category_id=UUID(category['id'])
-                        ).first()
-                        
-                        if existing_category:
-                            existing_category.bot9_instruction_category_name = category['name']
-                            existing_category.bot9_instruction_category_description = category['description']
-                            existing_category.updated_at = datetime.utcnow()
-                        else:
-                            new_category = ChatbotInstruction(
-                                bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
-                                bot9_instruction_category_id=UUID(category['id']),
-                                bot9_instruction_category_name=category['name'],
-                                bot9_instruction_category_description=category['description']
-                            )
-                            db.session.add(new_category)
-                        
-                        db.session.commit()
-                        print(f"Category {category['id']} updated/added successfully")
+                try:
+                    # Delete all existing instructions for this chatbot
+                    ChatbotInstruction.query.filter_by(bot9_chatbot_id=chatbot.bot9_chatbot_id).delete()
+                    db.session.commit()
+                    print(f"Deleted existing instructions for chatbot {chatbot.bot9_chatbot_id}")
 
-                        # Handle instructions within the category
+                    # Add new instructions
+                    for category in instruction_categories_data:
+                        # Add category
+                        new_category = ChatbotInstruction(
+                            bot9_chatbot_id=chatbot.bot9_chatbot_id,
+                            bot9_instruction_category_id=category['id'],
+                            bot9_instruction_category_name=category['name'],
+                            bot9_instruction_category_description=category.get('description', '')
+                        )
+                        db.session.add(new_category)
+                        print(f"Added category {category['id']}")
+
+                        # Add instructions within the category
                         for instruction in category['instructions']:
-                            try:
-                                existing_instruction = ChatbotInstruction.query.filter_by(
-                                    bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
-                                    bot9_instruction_id=UUID(instruction['id'])
-                                ).first()
-                                
-                                if existing_instruction:
-                                    existing_instruction.bot9_instruction_name = instruction['instructionName']
-                                    existing_instruction.bot9_instruction_text = instruction['instructionText']
-                                    existing_instruction.bot9_instruction_category_id = UUID(category['id'])
-                                    existing_instruction.updated_at = datetime.utcnow()
-                                else:
-                                    new_instruction = ChatbotInstruction(
-                                        bot9_chatbot_id=UUID(chatbot.bot9_chatbot_id),
-                                        bot9_instruction_id=UUID(instruction['id']),
-                                        bot9_instruction_name=instruction['instructionName'],
-                                        bot9_instruction_text=instruction['instructionText'],
-                                        bot9_instruction_category_id=UUID(category['id'])
-                                    )
-                                    db.session.add(new_instruction)
-                                
-                                db.session.commit()
-                                print(f"Instruction {instruction['id']} updated/added successfully")
-                            except IntegrityError:
-                                db.session.rollback()
-                                print(f"Error updating instruction {instruction['id']}, skipping...")
+                            new_instruction = ChatbotInstruction(
+                                bot9_chatbot_id=chatbot.bot9_chatbot_id,
+                                bot9_instruction_id=instruction['id'],
+                                bot9_instruction_name=instruction['instructionName'],
+                                bot9_instruction_text=instruction['instructionText'],
+                                bot9_instruction_category_id=category['id']
+                            )
+                            db.session.add(new_instruction)
+                            print(f"Added instruction {instruction['id']}")
 
-                    except IntegrityError:
-                        db.session.rollback()
-                        print(f"Error updating category {category['id']}, skipping...")
+                    db.session.commit()
+                    print(f"Instructions updated successfully for chatbot {chatbot.bot9_chatbot_id}")
 
-                print(f"Instructions updated successfully for chatbot {chatbot.bot9_chatbot_id}")
+                except Exception as e:
+                    db.session.rollback()
+                    print(f"Error updating instructions for chatbot {chatbot.bot9_chatbot_id}: {str(e)}")
+                    print(traceback.format_exc())
+
             else:
                 print(f"Error fetching instructions for chatbot {chatbot.bot9_chatbot_id}: {response.text}")
 
         return "Instructions update process completed"
-
         
     @staticmethod
     def get_bot9_chatbot_id(user_id):

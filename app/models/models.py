@@ -42,12 +42,13 @@ class Chatbot(BaseModel):
 class ChatbotInstruction(BaseModel):
     __tablename__ = 'chatbot_instructions'
     bot9_chatbot_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chatbots.bot9_chatbot_id'), nullable=False, index=True)
-    bot9_instruction_category_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True, index=True)
+    bot9_instruction_category_id = db.Column(UUID(as_uuid=True), nullable=True, index=True)
     bot9_instruction_category_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_category_description = db.Column(db.Text, nullable=True)
-    bot9_instruction_id = db.Column(UUID(as_uuid=True), unique=True, nullable=True, index=True)
+    bot9_instruction_id = db.Column(UUID(as_uuid=True), nullable=True, index=True)
     bot9_instruction_name = db.Column(db.String(256), nullable=True)
     bot9_instruction_text = db.Column(db.Text, nullable=True)
+    is_category = db.Column(db.Boolean, default=False)  # True for categories, False for instructions
     chatbot = relationship('Chatbot', back_populates='instructions')
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 

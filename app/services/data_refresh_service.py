@@ -8,9 +8,9 @@ class DataRefreshService:
     @staticmethod
     def refresh_user_data(user_id):
         print(f"Starting data refresh for user {user_id}")
-        
+        bot9_token = TokenService.get_bot9_token(user_id)
         # Update chatbots
-        chatbots_updated = Bot9DataService.fetch_and_store_bot9_chatbots(user_id)
+        chatbots_updated = Bot9DataService.fetch_and_store_bot9_chatbots(user_id, bot9_token=bot9_token)
         print(f"Chatbots updated for user {user_id}: {chatbots_updated}")
         
         # Get and store instructions for all chatbots in a single call
