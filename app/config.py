@@ -17,6 +17,7 @@ class Config(object):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
+    print(f"DATABASE_URL: {DATABASE_URL}")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # # Email configuration
