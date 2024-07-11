@@ -1,0 +1,77 @@
+[
+    {
+        "id": "bot9 chatbot id",
+        "name": "bot9 chatbot name",
+        "slug": "bot9 chatbot slug",
+        "url": "https://teacherop.com",
+        "config": {
+
+        },
+        "LLMPrompts": null,
+        "denoProjectId": null,
+        "createdAt": "2024-06-26T17:34:59.714Z",
+        "updatedAt": "2024-06-28T16:20:23.782Z",
+        "deletedAt": null,
+        "ChatBotUser": {
+            "ChatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+            "UserId": "49d4b472-fc11-45f3-84c9-a29906196318",
+            "isActive": true,
+            "deactivationReason": null,
+            "roleId": "af07d618-ba7f-4a67-8e46-20a29a1be28d",
+            "createdAt": "2024-06-26T17:34:59.716Z",
+            "updatedAt": "2024-06-26T17:34:59.747Z"
+        },
+        "unreadConversations": 0,
+        "role": {
+            "id": "af07d618-ba7f-4a67-8e46-20a29a1be28d",
+            "updatedAt": "2024-06-26T17:34:59.726Z"
+        }
+    },
+    {
+        "id": "bot9 chatbot id",
+        "name": "bot9 chatbot name",
+        "slug": "bot9 chatbot slug",
+        "url": "bot9 chatbot url",
+        "config": {},
+        "createdAt": "2024-06-27T23:59:28.789Z",
+        "updatedAt": "2024-06-27T23:59:28.822Z",
+        "deletedAt": null,
+        "ChatBotUser": {
+            "ChatbotId": "3cfde8f5-2cd1-4def-b132-55e945c174f5",
+            "UserId": "49d4b472-fc11-45f3-84c9-a29906196318",
+            "isActive": true,
+            "deactivationReason": null,
+            "roleId": "27c4af22-5c45-4e8c-a9ed-d3eb203ceed0",
+            "createdAt": "2024-06-27T23:59:28.792Z",
+            "updatedAt": "2024-06-27T23:59:28.810Z"
+        },
+        "unreadConversations": 0,
+        "role": {
+            "id": "27c4af22-5c45-4e8c-a9ed-d3eb203ceed0",
+            "updatedAt": "2024-06-27T23:59:28.806Z"
+        }
+    },
+    {
+        "id": "bot9 chatbot id",
+        "name": "bot9 chatbot name",
+        "slug": "bot9 chatbot slug",
+        "url": "bot9 chatbot url",
+        "config": {
+        },
+        "LLMPrompts": null,
+        "LLMModel": null,
+        "createdAt": "2024-06-28T03:13:52.550Z",
+        "updatedAt": "2024-06-28T03:14:50.489Z",
+        "deletedAt": null,
+        "ChatBotUser": {
+            "ChatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+            "updatedAt": "2024-06-28T03:13:52.564Z"
+        },
+        "unreadConversations": 1,
+        "role": {
+            "id": "af89d042-c12f-4480-96d6-2486dbc8ac95",
+            "createdAt": "2024-06-28T03:13:52.562Z",
+            "updatedAt": "2024-06-28T03:13:52.562Z"
+        }
+    }
+]

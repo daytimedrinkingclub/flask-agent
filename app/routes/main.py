@@ -1,104 +1,68 @@
-# app/routes/main.py
-from flask import Blueprint, render_template, jsonify, request, redirect, url_for, flash
-import logging
-from ..redis_client import get_redis
-from rq import Queue
-from flask_login import login_required, current_user, login_user
-from ..services.anthropic_chat import AnthropicChat
-from ..services.bot9_data_service import Bot9DataService
-from ..services.chat_service import ChatService
-from ..services.message_service import MessageService
-from ..services.token_service import TokenService
-from ..services.data_refresh_service import DataRefreshService
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from flask_login import login_required, current_user
+from ..services.bot9_data.bot9_data_service import Bot9DataService
+from ..services.chat_data.chat_service import ChatService
+from ..services.chat_data.message_service import MessageService
+from ..services.user_data.data_refresh_service import DataRefreshService
+from ..services.user_data.status_service import StatusService
 
 bp = Blueprint('main', __name__)
-
-@bp.route('/')
-def index():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
-    else:
-        return redirect(url_for('auth.login'))
 
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    user_chatbots = Bot9DataService.get_user_chatbots(current_user.id) or []
-    print(f"Retrieved {len(user_chatbots)} chatbots for user {current_user.id}")  # Debug print
-    for chatbot in user_chatbots:
-        print(f"Chatbot: {chatbot.bot9_chatbot_name}, Instructions: {chatbot.instructions.count()}, Actions: {chatbot.actions.count()}")  # Debug print
+    user_chatbots = Bot9DataService.get_bot9_chatbot(current_user.id) or []
     if not user_chatbots:
         flash('You have no chatbots yet. Please refresh your data to start chatting.')
-       
+    for chatbot in user_chatbots:
+        chatbot['instructions'] = Bot9DataService.get_chatbot_instructions(chatbot['bot9_chatbot_id'])
     return render_template('main/dashboard-layout.html', chatbots=user_chatbots)
 
-@bp.route('/chat/new', methods=['POST'])
+@bp.route('/new_chat', methods=['POST'])
 @login_required
 def new_chat():
-    data = request.get_json()
-    chatbot_id = data.get('chatbot_id')
-    user_input = data.get('user_input')
-    if not chatbot_id:
-        return jsonify(error="Chatbot ID is required"), 400
-    
+    bot9_chatbot_id = request.form.get('chatbot_id')
     try:
-        # Create a new chat
-        chat_id = ChatService.create_chat(current_user.id, chatbot_id)
-        
-        # Enqueue the analysis task
-        q = Queue(connection=get_redis())
-        job = q.enqueue('app.tasks.start_analysis', chat_id, user_input)
-        
-        return jsonify(success=True, message="Analysis started", chat_id=str(chat_id), job_id=job.id), 200
+        chat_id = ChatService.create_chat(current_user.id, bot9_chatbot_id)
+        MessageService.save_message(chat_id, "user", content="Start the analysis")
+        flash('Analysis started successfully', 'success')
     except Exception as e:
-        return jsonify(error=str(e)), 500
+        flash(f'Error starting chat: {str(e)}', 'error')
+    return redirect(url_for('main.dashboard'))
 
-@bp.route('/chat/<uuid:chat_id>/status', methods=['GET'])
-@login_required
-def get_chat_status(chat_id):
-    redis_client = get_redis()
-    status = redis_client.get(f"job_status:{chat_id}")
-    
-    if status == "completed":
-        result = redis_client.get(f"job_result:{chat_id}")
-        return jsonify(status="completed", result=result)
-    elif status == "failed":
-        error = redis_client.get(f"job_error:{chat_id}")
-        return jsonify(status="failed", error=error)
-    else:
-        return jsonify(status="in_progress")
-
-@bp.route('/chat/<uuid:chat_id>')
-@login_required
-def chat(chat_id):
-    chat = ChatService.get_chat_by_id(str(chat_id))
-    if not chat or chat.user_id != current_user.id:
-        return redirect(url_for('main.dashboard'))
-    conversation = MessageService.load_conversation(str(chat_id))
-    bot9_token = "Token Added" if TokenService.get_bot9_token(current_user.id) else None
-    return render_template('main/chat.html', chat=chat, conversation=conversation, bot9_token=bot9_token)
-
-@bp.route('/chat/<uuid:chat_id>/message', methods=['POST'])
+@bp.route('/chat/<uuid:chat_id>/send_message', methods=['POST'])
 @login_required
 def send_message(chat_id):
-    user_message = request.json['user_message']
-    chat_response = AnthropicChat.handle_chat(str(chat_id), user_message)
-    return jsonify(chat_response=chat_response.dict())
+    user_message = request.form.get('user_input')
+    if MessageService.save_message(str(chat_id), "user", content=user_message):
+        flash('Input received successfully', 'success')
+    else:
+        flash('Failed to process input', 'error')
+    return redirect(url_for('main.dashboard'))
 
-@bp.route('/chat/<uuid:chat_id>/refresh', methods=['GET'])
+@bp.route('/chat/<uuid:chat_id>/status_update', methods=['GET'])
 @login_required
-def refresh_chat(chat_id):
-    chat = ChatService.get_chat_by_id(str(chat_id))
-    if not chat or chat.user_id != current_user.id:
-        return jsonify(error="Unauthorized"), 403
-    conversation = MessageService.load_conversation(str(chat_id))
-    return jsonify(conversation=conversation)
+def get_chat_status_update(chat_id):
+    status = StatusService.get_chat_status(str(chat_id))
+    return jsonify(status=status)
 
 @bp.route('/refresh_data')
 @login_required
 def refresh_data():
-    print(f"Starting data refresh for user {current_user.id}")
-    user_chatbots = DataRefreshService.refresh_user_data(current_user.id)
-    print(f"Completed data refresh for user {current_user.id}. Found {len(user_chatbots)} chatbots.")
-    flash('Your data has been refreshed successfully.', 'success')
-    return redirect(url_for('main.dashboard'))
+    result = DataRefreshService.refresh_user_data(current_user.id)
+    if isinstance(result, list):
+        flash('Your data has been refreshed successfully.', 'success')
+        user_chatbots = result
+        for chatbot in user_chatbots:
+            try:
+                chatbot_id = chatbot.get('bot9_chatbot_id') or chatbot.get('id')
+                if not chatbot_id:
+                    raise ValueError(f"No valid chatbot ID found in chatbot data: {chatbot}")
+                chatbot['instructions'] = Bot9DataService.get_chatbot_instructions(chatbot_id)
+                chatbot['actions'] = Bot9DataService.get_chatbot_actions(chatbot_id)
+            except Exception as e:
+                flash(f'Error refreshing data: {e}', 'error')
+        return render_template('main/dashboard-layout.html', chatbots=user_chatbots)
+    else:
+        flash(f'Failed to refresh data: {result}', 'error')
+        return redirect(url_for('main.dashboard'))

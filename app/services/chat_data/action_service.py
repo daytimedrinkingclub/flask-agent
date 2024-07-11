@@ -1,6 +1,6 @@
 # app/services/action_service.py
-from ..extensions import db
-from ..models.models import ActionCurl
+from ...extensions import db
+from ...models.models import ActionCurl
 
 class ActionService:
     @staticmethod

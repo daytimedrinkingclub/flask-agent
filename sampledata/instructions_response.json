@@ -1,0 +1,92 @@
+[
+    {
+        "id": "<bot9 instruction category uuid>",
+        "name": "<bot9 instruction category name>",
+        "description": "<bot9 instruction category description>",
+        "entityModel": "instruction",
+        "chatbotId": "<bot9 chatbot uuid>",
+        "parentId": null,
+        "slug": "<bot9 instruction category slug>",
+        "logoURL": "<bot9 instruction category logo url>",
+        "icon": "<bot9 instruction category icon>",
+        "position": null,
+        "createdAt": "<bot9 instruction category created at>",
+        "updatedAt": "<bot9 instruction category updated at>",
+        "instructions": [
+            {
+                "id": "<bot9 instruction uuid>",
+                "instructionName": "<bot9 instruction name>",
+                "instructionText": "<bot9 instruction text>",
+                "instructionHtml": null,
+                "isActive": true,
+                "predefinedInstructionId": null,
+                "chatbotId": "<bot9 chatbot uuid>",
+                "position": 0,
+                "createdAt": "<bot9 instruction created at>",
+                "updatedAt": "<bot9 instruction updated at>",
+                "deletedAt": null,
+                "Actions": [],
+                "ChatbotActions": [],
+                "categoryId": "<bot9 instruction category uuid>"
+            },
+            {
+                "id": "<bot9 instruction uuid>",
+                "instructionName": "<bot9 instruction name>",
+                "instructionText": "<bot9 instruction text>",
+                "instructionHtml": null,
+                "isActive": true,
+                "predefinedInstructionId": null,
+                "chatbotId": "<bot9 chatbot uuid>",
+                "position": 1,
+                "createdAt": "<bot9 instruction created at>",
+                "updatedAt": "<bot9 instruction updated at>",
+                "deletedAt": null,
+                "Actions": [],
+                "ChatbotActions": [],
+                "categoryId": "<bot9 instruction category uuid>"
+            }
+        ]
+    },
+    {
+        "id": "<bot9 instruction category uuid>",
+        "name": "<bot9 instruction category name>",
+        "description": "<bot9 instruction category description>",
+        "entityModel": "instruction",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "parentId": null,
+        "slug": "<bot9 instruction category slug>",
+        "logoURL": "<bot9 instruction category logo url>",
+        "icon": "<bot9 instruction category icon>",
+        "position": null,
+        "createdAt": "<bot9 instruction category created at>",
+        "updatedAt": "<bot9 instruction category updated at>",
+        "instructions": [
+            {
+                "id": "<bot9 instruction uuid>",
+                "instructionName": "<bot9 instruction name>",
+                "instructionText": "<bot9 instruction text>",
+                "instructionHtml": null,
+                "isActive": true,
+                "predefinedInstructionId": null,
+                "chatbotId": "<bot9 chatbot uuid>",
+                "position": null,
+                "createdAt": "<bot9 instruction created at>",
+                "updatedAt": "<bot9 instruction updated at>",
+                "deletedAt": null,
+                "Actions": [],
+                "ChatbotActions": [],
+                "categoryId": "<bot9 instruction category uuid>"
+            }
+        ]
+    }
+]
+
+
+[
+    {'id': '61a57b01-d807-435d-99c4-87c98108ad73', 'instructionName': 'Demo Instruction 2', 'instructionText': 'always ask for users number and use the tool `UpdatePhoneNumber()` ', 'instructionHtml': None, 'isActive': True, 'predefinedInstructionId': None, 'chatbotId': '657c36de-7734-4444-a306-1bce0ffcc8b7', 'position': 0, 'createdAt': '2024-07-03T05: 17: 45.617Z', 'updatedAt': '2024-07-07T03: 43: 30.521Z', 'deletedAt': None, 'Actions': [], 'ChatbotActions': []
+    },
+    {'id': 'ab66fa14-d620-494a-a609-faaf4d7e9516', 'instructionName': 'Demo Instruction', 'instructionText': 'always ask for users number and use the tool `UpdatePhoneNumber()` ', 'instructionHtml': None, 'isActive': True, 'predefinedInstructionId': None, 'chatbotId': '657c36de-7734-4444-a306-1bce0ffcc8b7', 'position': 1, 'createdAt': '2024-07-03T05: 14: 19.255Z', 'updatedAt': '2024-07-07T03: 43: 30.525Z', 'deletedAt': None, 'Actions': [], 'ChatbotActions': []
+    },
+    {'id': 'c3c13c3f-0b5b-4b79-a27a-7f2226ff9ff8', 'instructionName': 'Sample3', 'instructionText': 'This is again a sample instruction', 'instructionHtml': None, 'isActive': True, 'predefinedInstructionId': None, 'chatbotId': '657c36de-7734-4444-a306-1bce0ffcc8b7', 'position': None, 'createdAt': '2024-07-07T03: 43: 54.108Z', 'updatedAt': '2024-07-07T03: 43: 54.108Z', 'deletedAt': None, 'Actions': [], 'ChatbotActions': []
+    }
+]

@@ -1,21 +1,49 @@
-# app/services/context_service.py
-from ..extensions import db
-from ..models.models import Message
+from ...extensions import db
+from ...models.models import Message
+from rq import Queue
+from ...redis_client import get_redis
+from .chat_utils import update_chat_status
+from ...services.user_data.status_service import StatusService
+from ...services.anthropic_services.anthropic_chat import handle_chat
 
-class ContextService:
+
+
+
+class MessageService:
     @staticmethod
-    def build_context(chat_id):
-        print(f"Building context for chat ID: {chat_id}")
-
-        messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
+    def save_message(chat_id, role, content, tool_use_id=None, tool_use_input=None, tool_name=None, tool_result=None):
+        message = Message(
+            chat_id=chat_id,
+            role=role,
+            content=content,
+            tool_name=tool_name,
+            tool_use_id=tool_use_id,
+            tool_input=tool_use_input,
+            tool_result=tool_result
+        )
+        db.session.add(message)
+        db.session.commit()
         
-        print(f"Total messages loaded with context services: {len(messages)}")
+        if role == 'assistant' and not tool_name and content:
+            update_chat_status(chat_id, 'input_needed')
+            return message
+        else:
+            status = f"{role}_{tool_name}" if tool_name else f"{role}_tool_result" if tool_result else role
+            update_chat_status(chat_id, status)
+        
+        q = Queue(connection=get_redis())
 
-        context = []
+        q.enqueue(handle_chat, chat_id)
+        return message
+
+    @staticmethod
+    def load_conversation(chat_id):
+        messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
+        conversation = []
         for message in messages:
             if message.role == "user":
                 if message.tool_result:
-                    context.append({
+                    conversation.append({
                         "role": "user",
                         "content": [
                             {
@@ -26,7 +54,7 @@ class ContextService:
                         ]
                     })
                 else:
-                    context.append({
+                    conversation.append({
                         "role": "user",
                         "content": [
                             {
@@ -37,7 +65,7 @@ class ContextService:
                     })
             elif message.role == "assistant":
                 if message.tool_name:
-                    context.append({
+                    conversation.append({
                         "role": "assistant",
                         "content": [
                             {
@@ -53,7 +81,7 @@ class ContextService:
                         ]
                     })
                 else:
-                    context.append({
+                    conversation.append({
                         "role": "assistant",
                         "content": [
                             {
@@ -62,7 +90,8 @@ class ContextService:
                             }
                         ]
                     })
-                
-        print(f"Total messages built in context: {len(context)}")
-
-        return context
+        return conversation
+    
+    @staticmethod
+    def get_total_messages(chat_id):
+        return Message.query.filter_by(chat_id=chat_id).count()

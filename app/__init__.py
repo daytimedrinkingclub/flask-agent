@@ -1,30 +1,29 @@
-# app/__init__.py
-from flask import Flask
+from flask import Flask, render_template
 from .config import Config
-from .extensions import login_manager, init_extensions
+from .extensions import init_extensions
+from .models import models  # Import at the top level
+import logging
 
 def create_app(config_class=Config):
-    print(f"Creating Flask app...")
     app = Flask(__name__)
-
-    print(f"Flask app created successfully")
     app.config.from_object(config_class)
-    from .models import models 
-    print(f"App config loaded initialising extensions")
+        # Configure logging
+    logging.basicConfig(level=logging.DEBUG)
     init_extensions(app)
-    print(f"Extensions initialised")
-
-    from .routes.auth import bp as auth_bp
-    app.register_blueprint(auth_bp)
-
-    from .routes.main import bp as main_bp  
-    app.register_blueprint(main_bp)
     
-    from .services.user_service import UserService
+    from .routes import auth, main
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(main.bp)
     
+    from .services.user_data.user_service import UserDataService
     
-    @login_manager.user_loader
+    @app.login_manager.user_loader
     def load_user(user_id):
-        return UserService.get_user_by_id(user_id)
+        return UserDataService.get_user_by_id(user_id)
+    
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        app.logger.error('Server Error: %s', (error))
+        return render_template('errors/500.html'), 500
 
     return app

@@ -1,11 +1,11 @@
 import os
 import re
 import json
-from .message_service import MessageService
-from .search_service import SearchService
-from .anthropic_service import AnthropicService
-from .botnine_service import BotnineService
-from .action_service import ActionService
+from ...utils.search_util import SearchService
+from ..anthropic_services.anthropic_service import AnthropicService
+from ...utils.botnine_util import BotnineService
+from ..chat_data.action_service import ActionService
+from ..chat_data.message_service import MessageService
 # This class is called by the Toolhandler function
 class Tools:
     @staticmethod
@@ -35,6 +35,7 @@ class Tools:
 class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, chat_id):
+
         print(f"process_tool_use functioned called")
         if tool_name == "consult_subhash":
             user_message = f"{tool_input['question']}"

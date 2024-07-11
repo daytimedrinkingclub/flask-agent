@@ -43,13 +43,21 @@
     </header>
 
     <main class="flex-grow container mx-auto mt-4 px-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} bg-{{ category }}-100 border border-{{ category }}-400 text-{{ category }}-700 px-4 py-3 rounded relative mb-4" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </main>
 
     <footer class="bg-shiny-black text-white text-center p-3 mt-6 shimmer">
         <p class="text-sm">&copy; 2024 botnineplugins. No rights reserved at all.</p>
     </footer>
-
-    {% block scripts %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/chatStatus.js') }}"></script>
 </body>
 </html>

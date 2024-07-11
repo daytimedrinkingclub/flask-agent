@@ -1,31 +1,19 @@
-# app/services/message_service.py
-from ..extensions import db
-from ..models.models import Message
 
-class MessageService:
-    @staticmethod
-    def save_message(chat_id, role, content, tool_use_id=None, tool_use_input=None, tool_name=None, tool_result=None):
-        message = Message(
-            chat_id=chat_id,
-            role=role,
-            content=content,
-            tool_name=tool_name,
-            tool_use_id=tool_use_id,
-            tool_input=tool_use_input,
-            tool_result=tool_result
-        )
-        db.session.add(message)
-        db.session.commit()
-        return message
 
+class ContextService:
     @staticmethod
-    def load_conversation(chat_id):
+    def build_context(chat_id):
+        # app/services/context_service.py
+        from ...extensions import db
+        from ...models.models import Message
+
         messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
-        conversation = []
+        
+        context = []
         for message in messages:
             if message.role == "user":
                 if message.tool_result:
-                    conversation.append({
+                    context.append({
                         "role": "user",
                         "content": [
                             {
@@ -36,7 +24,7 @@ class MessageService:
                         ]
                     })
                 else:
-                    conversation.append({
+                    context.append({
                         "role": "user",
                         "content": [
                             {
@@ -47,7 +35,7 @@ class MessageService:
                     })
             elif message.role == "assistant":
                 if message.tool_name:
-                    conversation.append({
+                    context.append({
                         "role": "assistant",
                         "content": [
                             {
@@ -63,7 +51,7 @@ class MessageService:
                         ]
                     })
                 else:
-                    conversation.append({
+                    context.append({
                         "role": "assistant",
                         "content": [
                             {
@@ -72,4 +60,5 @@ class MessageService:
                             }
                         ]
                     })
-        return conversation
+                
+        return context
