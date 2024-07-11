@@ -10,6 +10,7 @@ __pycache__/
 venv/
 myvenv/
 testing/
+sampledata/
 .cursorignore
 test.json
 env/
@@ -67,3 +68,7 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+
+sampledata/
+testing/
+run.py
