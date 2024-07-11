@@ -12,14 +12,17 @@ class Config:
     SEARCH_ENGINE_ID = os.environ.get('SEARCH_ENGINE_ID')
     
     # Database configuration
-    DATABASE_URL = os.environ.get('HEROKU_POSTGRESQL_PURPLE_URL') or os.environ.get('DATABASE_URL')
+    DATABASE_URL = os.environ.get('DATABASE_URL')
     if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    FLASK_DEBUG = False
+    # FLASK_DEBUG = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    # Ensure the correct dialect is used
+    if SQLALCHEMY_DATABASE_URI:
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace('postgres:', 'postgresql:')
     
     # Redis configuration
     REDIS_URL = os.environ.get('REDIS_TLS_URL') or os.environ.get('REDIS_URL')
