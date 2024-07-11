@@ -1,0 +1,3239 @@
+[
+    {
+        "id": "85397044-280e-4272-a489-10f7da998ef0",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Getfreshdeskticket",
+        "description": "get fresh desk ticket status",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://{{your_domain}}.freshdesk.com/api/v2/tickets/{{ticket_id}}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Basic {{base64_encoded_api_key}}"
+            },
+            "pathParams": [
+                {
+                    "key": "ticket_id",
+                    "value": "{{ticket_id}}",
+                    "description": "ticket id for which the status needs to be checked",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "getfreshdeskticket_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_id": {
+                        "type": "string",
+                        "description": "ticket id for which the status needs to be checked"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T01:24:18.823Z",
+        "updatedAt": "2024-06-27T01:24:56.906Z",
+        "deletedAt": "2024-06-27T01:25:44.765Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "00f7da8f-d0d6-49c0-b079-94f3ca1fbdc4",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Get_calendly_availability",
+        "description": "This action retrieves the availability schedules for a specific Calendly user. It requires the user's URI and a valid Calendly API token.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.calendly.com/user_availability_schedules?user=${USER_URI}",
+            "headers": {
+                "Authorization": "Bearer ${CALENDLY_API_TOKEN}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "get_calendly_availability",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T02:30:20.082Z",
+        "updatedAt": "2024-06-28T02:30:20.082Z",
+        "deletedAt": "2024-06-28T03:12:52.469Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "fb712c7b-cd2a-4c31-9d1d-285fdefb1315",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Asd",
+        "description": "asd",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://asd",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Content-Type": "application/json"
+            }
+        },
+        "llmFunction": {
+            "name": "asd",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T02:21:38.258Z",
+        "updatedAt": "2024-06-28T02:21:38.258Z",
+        "deletedAt": "2024-06-28T03:12:54.163Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "29873280-014e-4557-8789-c88f1f186cb4",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Get_calendly_availability",
+        "description": "Retrieve user availability schedules from Calendly within a specified time range.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.calendly.com/user_availability_schedules?user=${USER_URI}&min_start_time=${MIN_START_TIME}&max_start_time=${MAX_START_TIME}",
+            "headers": {
+                "Authorization": "Bearer ${CALENDLY_API_TOKEN}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "get_calendly_availability_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T02:39:39.779Z",
+        "updatedAt": "2024-06-28T02:39:39.779Z",
+        "deletedAt": "2024-06-28T03:12:56.066Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "0c7b5020-df0f-4dd0-a82a-5e975a8bd05b",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "UpdateFreshdeskTicketStatusCopy",
+        "description": "This action updates the status of an existing ticket in Freshdesk.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "PUT",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets/{{TICKET_ID}}",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{FRESHDESK_API_KEY}}"
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com",
+                "${TICKET_ID}"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "updatefreshdeskticketstatuscopy",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "status"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:13:19.277Z",
+        "updatedAt": "2024-06-28T03:13:19.277Z",
+        "deletedAt": "2024-06-28T03:13:22.876Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "status"
+        ]
+    },
+    {
+        "id": "e8510e37-a0e4-49ee-aa83-5388585d02a1",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "UpdateFreshdeskTicketStatus",
+        "description": "This action updates the status of an existing ticket in Freshdesk.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "PUT",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets/{{TICKET_ID}}",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{FRESHDESK_API_KEY}}"
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com",
+                "${TICKET_ID}"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "update_freshdesk_ticket_status",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "status"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T07:36:47.874Z",
+        "updatedAt": "2024-06-27T07:36:47.874Z",
+        "deletedAt": "2024-06-28T03:13:25.895Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "status"
+        ]
+    },
+    {
+        "id": "fff6b4d4-5b05-4c74-b803-d85c62daf728",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "GetOLXOrders",
+        "description": "Retrieve order information for a specific OLX user",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.olx.com/orders?user_id=${USER_ID}",
+            "headers": {
+                "Authorization": "Bearer ${ACCESS_TOKEN}",
+                "Content-Type": "application/json",
+                "X-API-Key": "{{API_KEY}}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "getolxorders",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T05:56:07.059Z",
+        "updatedAt": "2024-07-03T05:56:07.059Z",
+        "deletedAt": "2024-07-11T10:48:38.964Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "bbcbadd3-61de-4f3b-8a01-892036b2ac9c",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "GetOLXListings",
+        "description": "Retrieve listed products information for a specific OLX user",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.olx.com/listings?user_id=${USER_ID}",
+            "headers": {
+                "Authorization": "Bearer ${ACCESS_TOKEN}",
+                "Content-Type": "application/json",
+                "X-API-Key": "{{API_KEY}}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "getolxlistings",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T05:56:29.318Z",
+        "updatedAt": "2024-07-03T05:56:29.318Z",
+        "deletedAt": "2024-07-11T10:48:37.320Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "0cf0e10b-0569-45ed-ba87-b4a344c25538",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "TrackOLXDelivery",
+        "description": "Track delivery status for a specific OLX order",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.olx.com/delivery-tracking?order_id=${ORDER_ID}",
+            "headers": {
+                "Authorization": "Bearer ${ACCESS_TOKEN}",
+                "Content-Type": "application/json",
+                "X-API-Key": "{{API_KEY}}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "trackolxdelivery",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T05:56:51.485Z",
+        "updatedAt": "2024-07-03T05:56:51.485Z",
+        "deletedAt": "2024-07-11T10:48:35.686Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "74854f00-d70f-4e4b-886e-415cacfec46a",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CreateFreshdeskTicket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "'Content-Type": "",
+                "'Authorization": ""
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "raw_body",
+                    "value": "{",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T07:13:57.627Z",
+        "updatedAt": "2024-06-27T07:13:57.627Z",
+        "deletedAt": "2024-06-27T07:36:02.008Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "271c2f76-cf80-4cfc-ad31-803045f50e44",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CreateFreshdeskTicket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "'Content-Type": "",
+                "'Authorization": ""
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "raw_body",
+                    "value": "{",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T07:11:36.350Z",
+        "updatedAt": "2024-06-27T07:11:36.350Z",
+        "deletedAt": "2024-06-27T07:35:59.415Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "2ecd8cec-fc42-420d-b486-08f9ead742ba",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Getfreshdeskticket",
+        "description": "getfreshdeskticket",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://{your_domain}.freshdesk.com/api/v2/tickets/{ticket_id}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Basic {base64_encoded_api_key}"
+            }
+        },
+        "llmFunction": {
+            "name": "getfreshdeskticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T01:26:11.629Z",
+        "updatedAt": "2024-06-27T01:26:11.629Z",
+        "deletedAt": "2024-06-27T06:55:11.843Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "6da2da64-6148-48ff-a1b8-d9fa5e78c750",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Getfreshdeskticket",
+        "description": "getfreshdeskticket",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://{your_domain}.freshdesk.com/api/v2/tickets/{ticket_id}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Basic {base64_encoded_api_key}"
+            }
+        },
+        "llmFunction": {
+            "name": "getfreshdeskticket_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T01:26:39.364Z",
+        "updatedAt": "2024-06-27T01:26:39.364Z",
+        "deletedAt": "2024-06-27T06:55:13.711Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "3ea18124-dc1c-4052-a1b1-efa7166c1be1",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "ShopifyProductFetcher",
+        "description": "Whenever someone asks any info about products, use this function.\nImportant: the above action will automatically show the products to user. Do not render ANY information regarding products yourself, just ask if the user is interested in any of the above products. Remember, the customer is already seeing products in the custom carousel rendered. No need to list out products again.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://shopifyproductfetcher.deno.dev/",
+            "logoURL": "https://dms.mydukaan.io/original/jpeg/bot9-media/67b17b9a-cdf4-4aca-9bcc-5100d5a2978c.svg",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": [
+                {
+                    "key": "domain",
+                    "value": "https://teacherop.com",
+                    "description": "This is your Shopify Store link.",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "shopifyproductfetcher",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": true,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-26T17:35:09.831Z",
+        "updatedAt": "2024-06-26T17:35:09.831Z",
+        "deletedAt": "2024-06-27T06:55:16.242Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "6ac018f3-a3a3-40a6-a6ca-ab598dc0327c",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Getfreshdeskticket2",
+        "description": "a306",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://apiv1.bot9.ai/api/rules/657c36de-7734-4444-a306-1bce0ffcc8b7/{{custom-actions}}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            "pathParams": [
+                {
+                    "key": "custom-actions",
+                    "value": "{{custom-actions}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "queryParams": [
+                {
+                    "key": "search_id",
+                    "value": "{{variable_value}}",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "name",
+                    "value": "getfreshdeskticket",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "getfreshdeskticket",
+                    "type": "string"
+                },
+                {
+                    "key": "actionType",
+                    "value": "http_request",
+                    "type": "string"
+                },
+                {
+                    "key": "isSideEffect",
+                    "value": "false",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "getfreshdeskticket2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "variable_value": {
+                        "type": "string"
+                    },
+                    "custom-actions": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "variable_value",
+                    "custom-actions"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T01:28:39.888Z",
+        "updatedAt": "2024-06-27T01:28:39.888Z",
+        "deletedAt": "2024-06-27T06:55:09.550Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "variable_value"
+        ]
+    },
+    {
+        "id": "86bb126e-0114-4ce6-aaf1-527647ed52d0",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CreateFreshdeskTicket",
+        "description": "his action creates a new ticket in Freshdesk using the provided information. It requires the Freshdesk domain, API key, ticket subject, description, customer email, and optional CC emails.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{FRESHDESK_API_KEY}}"
+            },
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{ticket_subject}}",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{ticket_description}}",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{email}}",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                },
+                {
+                    "key": "",
+                    "value": "",
+                    "description": "",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "createfreshdeskticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_subject": {
+                        "type": "string"
+                    },
+                    "ticket_description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_subject",
+                    "ticket_description",
+                    "email",
+                    "priority",
+                    "status"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T07:08:05.409Z",
+        "updatedAt": "2024-06-27T07:08:05.409Z",
+        "deletedAt": "2024-06-27T07:36:06.094Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "ticket_subject",
+            "ticket_description",
+            "email",
+            "priority",
+            "status"
+        ]
+    },
+    {
+        "id": "cd90e370-8eb9-445a-9123-3ea6b54b73b0",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CreateFreshdeskTicket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{FRESHDESK_API_KEY}}"
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{subject}}",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{description}}",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{email}}",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket_3",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "cc_emails": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "subject",
+                    "description",
+                    "email",
+                    "priority",
+                    "status",
+                    "cc_emails"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T07:35:08.710Z",
+        "updatedAt": "2024-06-27T07:35:08.710Z",
+        "deletedAt": "2024-06-27T07:36:03.891Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "subject",
+            "description",
+            "email",
+            "priority",
+            "status",
+            "cc_emails"
+        ]
+    },
+    {
+        "id": "d2fa1fdf-f605-46d9-a984-7b25dc3fb751",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_freshdesk_ticket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the Freshdesk domain, API key, ticket subject, description, requester email, and optional CC emails. The ticket is created with normal priority and open status by default.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{FRESHDESK_DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{FRESHDESK_API_KEY}}"
+            },
+            "pathParams": [
+                "${FRESHDESK_DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{subject}}",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{description}}",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{email}}",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "cc_emails": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "subject",
+                    "description",
+                    "email",
+                    "priority",
+                    "status",
+                    "cc_emails"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T08:16:05.999Z",
+        "updatedAt": "2024-06-27T08:16:05.999Z",
+        "deletedAt": "2024-06-28T03:13:21.034Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "subject",
+            "description",
+            "email",
+            "priority",
+            "status",
+            "cc_emails"
+        ]
+    },
+    {
+        "id": "6c830161-337d-45f5-8b68-eecbaf714605",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_freshdesk_ticket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the Freshdesk domain, API key, and ticket details such as description, subject, customer email, priority, status, and CC emails.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{API_KEY}}"
+            },
+            "pathParams": [
+                "${DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "description",
+                    "value": "{{description}}",
+                    "type": "string"
+                },
+                {
+                    "key": "subject",
+                    "value": "{{subject}}",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{email}}",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "cc_emails": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "description",
+                    "subject",
+                    "email",
+                    "priority",
+                    "status",
+                    "cc_emails"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T08:33:21.732Z",
+        "updatedAt": "2024-06-27T08:33:21.732Z",
+        "deletedAt": "2024-06-28T03:13:18.184Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "description",
+            "subject",
+            "email",
+            "priority",
+            "status",
+            "cc_emails"
+        ]
+    },
+    {
+        "id": "ae064c99-ce36-49bf-96af-b22c7597dbfc",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_freshdesk_ticket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the following parameters: DOMAIN (your Freshdesk domain), API_KEY (your base64 encoded API key), TICKET_SUBJECT, TICKET_DESCRIPTION, CUSTOMER_EMAIL, PRIORITY (integer), STATUS (integer), and CC_EMAILS (JSON array of email strings).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://{{DOMAIN}}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic {{API_KEY}}"
+            },
+            "pathParams": [
+                "${DOMAIN}.freshdesk.com"
+            ],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{subject}}",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{description}}",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{email}}",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket_3",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "cc_emails": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "subject",
+                    "description",
+                    "email",
+                    "priority",
+                    "status",
+                    "cc_emails"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T12:42:19.675Z",
+        "updatedAt": "2024-06-27T12:42:19.675Z",
+        "deletedAt": "2024-06-28T03:13:13.090Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "subject",
+            "description",
+            "email",
+            "priority",
+            "status",
+            "cc_emails"
+        ]
+    },
+    {
+        "id": "5cc2406d-2f46-43b0-99be-aaba60b2b147",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Fetch_order_status",
+        "description": "This action fetches the current status of a specific order from Zyod's order management system.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.zyod.com/orders/{{order_id}}",
+            "headers": {
+                "Authorization": "Bearer ${api_key}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "order_id",
+                    "value": "{{order_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "fetch_order_status",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "order_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "order_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T15:10:52.677Z",
+        "updatedAt": "2024-06-28T15:10:52.677Z",
+        "deletedAt": "2024-06-30T04:38:36.663Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "194a41ee-2a08-480c-b66e-ede00843d81c",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Check_inventory",
+        "description": "This action checks the current inventory level for a specific product in Zyod's inventory management system.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.zyod.com/inventory/{{product_id}}",
+            "headers": {
+                "Authorization": "Bearer ${api_key}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "product_id",
+                    "value": "{{product_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "check_inventory",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "product_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "product_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T15:11:35.879Z",
+        "updatedAt": "2024-06-28T15:11:35.879Z",
+        "deletedAt": "2024-06-30T04:38:31.041Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "718c794f-7b40-48dc-9c69-810c95c39413",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_freshdesk_ticket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the following parameters: domain (your Freshdesk domain), base64_encoded_api_key (your Freshdesk API key encoded in base64), ticket_subject, ticket_description, customer_email, priority (a number), status (a number), and cc_emails_array (a JSON array of email addresses).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://${domain}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{ticket_subject}}",
+                    "description": "subject Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{ticket_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{customer_email}}",
+                    "description": "email Description",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "description": "priority Description",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "description": "status Description",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails_array}}",
+                    "description": "cc_emails Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket_4",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_subject": {
+                        "type": "string",
+                        "description": "subject Description"
+                    },
+                    "ticket_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "priority Description"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "status Description"
+                    },
+                    "cc_emails_array": {
+                        "type": "string",
+                        "description": "cc_emails Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_subject",
+                    "ticket_description",
+                    "priority",
+                    "status",
+                    "cc_emails_array"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T01:05:17.328Z",
+        "updatedAt": "2024-06-28T01:05:17.328Z",
+        "deletedAt": "2024-06-28T03:13:07.395Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "ticket_subject",
+            "ticket_description",
+            "customer_email",
+            "priority",
+            "status",
+            "cc_emails_array"
+        ]
+    },
+    {
+        "id": "2b40d412-8816-4222-a901-cea6711da096",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Update_freshdesk_ticket_status",
+        "description": "This action updates the status of a Freshdesk ticket. It requires the ticket ID, base64 encoded API key, and the new status code (2 for Open, 3 for Pending, 4 for Resolved, 5 for Closed).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "PUT",
+            "url": "https://teacherop.freshdesk.com/api/v2/tickets/{{ticket_id}}",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "ticket_id",
+                    "value": "{{ticket_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "status",
+                    "value": "{{new_status}}",
+                    "description": "status Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "update_freshdesk_ticket_status_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "new_status": {
+                        "type": "string",
+                        "description": "status Description"
+                    },
+                    "ticket_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "new_status",
+                    "ticket_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T01:29:22.030Z",
+        "updatedAt": "2024-06-28T01:29:22.030Z",
+        "deletedAt": "2024-06-28T03:12:58.988Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "new_status"
+        ]
+    },
+    {
+        "id": "728d541f-b9bc-4d40-bfc1-6af76eb24c2f",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Get_google_calendar_schedule",
+        "description": "Fetch the user's Google Calendar schedule for a specified time range. This action requires an OAuth 2.0 access token for authentication and the desired time range in ISO 8601 format.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+            "headers": {
+                "Authorization": "Bearer ${access_token}",
+                "Accept": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": [
+                {
+                    "key": "timeMin",
+                    "value": "{{key}}",
+                    "description": "Parameter: timeMin",
+                    "type": "string"
+                },
+                {
+                    "key": "timeMax",
+                    "value": "{{key}}",
+                    "description": "Parameter: timeMax",
+                    "type": "string"
+                },
+                {
+                    "key": "singleEvents",
+                    "value": "{{key}}",
+                    "description": "Parameter: singleEvents",
+                    "type": "string"
+                },
+                {
+                    "key": "orderBy",
+                    "value": "{{key}}",
+                    "description": "Parameter: orderBy",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "get_google_calendar_schedule",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: orderBy"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T02:18:03.161Z",
+        "updatedAt": "2024-06-28T02:18:03.161Z",
+        "deletedAt": "2024-06-28T03:13:00.716Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "key",
+            "key",
+            "key",
+            "key"
+        ]
+    },
+    {
+        "id": "2b7b9380-4909-4f83-b423-8f7b7864d2de",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Book_google_calendar_meeting",
+        "description": "Book a meeting on Google Calendar with specified details such as summary, description, start time, end time, time zone, and attendee email.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://www.googleapis.com/calendar/v3/calendars/{{CALENDAR_ID}}/events",
+            "headers": {
+                "Authorization": "Bearer ${GOOGLE_API_TOKEN}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "CALENDAR_ID",
+                    "value": "{{CALENDAR_ID}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "summary",
+                    "value": "{{EVENT_SUMMARY}}",
+                    "description": "summary Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{EVENT_DESCRIPTION}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "start",
+                    "value": {
+                        "dateTime": "${START_TIME}",
+                        "timeZone": "${TIME_ZONE}"
+                    },
+                    "description": "start Description",
+                    "type": "string"
+                },
+                {
+                    "key": "end",
+                    "value": {
+                        "dateTime": "${END_TIME}",
+                        "timeZone": "${TIME_ZONE}"
+                    },
+                    "description": "end Description",
+                    "type": "string"
+                },
+                {
+                    "key": "attendees",
+                    "value": [
+                        {
+                            "email": "${ATTENDEE_EMAIL}"
+                        }
+                    ],
+                    "description": "attendees Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "book_google_calendar_meeting",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "EVENT_SUMMARY": {
+                        "type": "string",
+                        "description": "summary Description"
+                    },
+                    "EVENT_DESCRIPTION": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "CALENDAR_ID": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "EVENT_SUMMARY",
+                    "EVENT_DESCRIPTION",
+                    "CALENDAR_ID"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T02:39:55.354Z",
+        "updatedAt": "2024-06-28T02:39:55.354Z",
+        "deletedAt": "2024-06-28T03:12:50.458Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "EVENT_SUMMARY",
+            "EVENT_DESCRIPTION"
+        ]
+    },
+    {
+        "id": "b19545ac-e983-47ca-b2d6-1369bc0d7493",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Fetch_freshdesk_tickets",
+        "description": "This action fetches tickets from Freshdesk using the provided parameters. It requires the following: domain (your Freshdesk domain), base64_encoded_api_key (your Freshdesk API key encoded in base64), order_by (created_at or updated_at), order_type (desc or asc), per_page (max 100), and page (page number to fetch).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://{{domain}}.freshdesk.com/api/v2/tickets",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "queryParams": [
+                {
+                    "key": "order_by",
+                    "value": "{{key}}",
+                    "description": "Parameter: order_by",
+                    "type": "string"
+                },
+                {
+                    "key": "order_type",
+                    "value": "{{key}}",
+                    "description": "Parameter: order_type",
+                    "type": "string"
+                },
+                {
+                    "key": "per_page",
+                    "value": "{{key}}",
+                    "description": "Parameter: per_page",
+                    "type": "string"
+                },
+                {
+                    "key": "page",
+                    "value": "{{key}}",
+                    "description": "Parameter: page",
+                    "type": "string"
+                }
+            ],
+            "customLLM": true
+        },
+        "llmFunction": {
+            "name": "fetch_freshdesk_tickets",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: page"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T01:06:14.899Z",
+        "updatedAt": "2024-06-28T01:26:50.431Z",
+        "deletedAt": "2024-06-28T03:13:02.474Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "key",
+            "key",
+            "key",
+            "key"
+        ]
+    },
+    {
+        "id": "2ecdbfd7-24c3-4167-8311-c4cd85551a92",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_freshdesk_ticketCopy",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the following parameters: domain (your Freshdesk domain), base64_encoded_api_key (your Freshdesk API key encoded in base64), ticket_subject, ticket_description, customer_email, priority (a number), status (a number), and cc_emails_array (a JSON array of email addresses).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://${domain}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "subject",
+                    "value": "{{ticket_subject}}",
+                    "description": "subject Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{ticket_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{customer_email}}",
+                    "description": "email Description",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "description": "priority Description",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "description": "status Description",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails_array}}",
+                    "description": "cc_emails Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticketcopy",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_subject": {
+                        "type": "string",
+                        "description": "subject Description"
+                    },
+                    "ticket_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "priority Description"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "status Description"
+                    },
+                    "cc_emails_array": {
+                        "type": "string",
+                        "description": "cc_emails Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_subject",
+                    "ticket_description",
+                    "priority",
+                    "status",
+                    "cc_emails_array"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:13:03.909Z",
+        "updatedAt": "2024-06-28T03:13:03.909Z",
+        "deletedAt": "2024-06-28T03:13:05.534Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "ticket_subject",
+            "ticket_description",
+            "customer_email",
+            "priority",
+            "status",
+            "cc_emails_array"
+        ]
+    },
+    {
+        "id": "fb9d6464-cd49-434c-b7e9-f5d582c0f998",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Getactionsample",
+        "description": "this is the sample payload sent on bot9 api endpoints to create a new get action",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://apiv1.bot9.ai/api/{{rules}}/",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Bearer <Token>"
+            },
+            "pathParams": [
+                {
+                    "key": "rules",
+                    "value": "{{rules}}",
+                    "description": "pathparam sample",
+                    "type": "string"
+                }
+            ],
+            "queryParams": [
+                {
+                    "key": "rule_id",
+                    "value": "{{rule_id}}",
+                    "description": "query param sample",
+                    "type": "string"
+                },
+                {
+                    "key": "rule_value",
+                    "value": "{{rule_value}}",
+                    "description": "query param sample",
+                    "type": "integer"
+                }
+            ],
+            "customLLM": true
+        },
+        "llmFunction": {
+            "name": "getactionsample",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "rule_id": {
+                        "type": "string",
+                        "description": "uuid of the rule"
+                    },
+                    "rule_value": {
+                        "type": "integer",
+                        "description": "value of the rule"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "rule_id",
+                    "rule_value"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T00:08:18.402Z",
+        "updatedAt": "2024-06-28T00:11:38.458Z",
+        "deletedAt": "2024-06-28T03:13:09.295Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "rule_id",
+            "rule_value"
+        ]
+    },
+    {
+        "id": "ccd9e678-7587-4b97-9457-da05d4cd5a24",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Samplepostaction",
+        "description": "sample",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://apiv1.bot9.ai/api/{{chat_bot_id}}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authrization": "Beaerer Token",
+                "Content-Type": "application/json"
+            },
+            "pathParams": [
+                {
+                    "key": "chat_bot_id",
+                    "value": "{{chat_bot_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "KeyName1",
+                    "value": "{{variable_value_1}}",
+                    "description": "KeyName1 Description",
+                    "type": "string"
+                },
+                {
+                    "key": "KeyName2",
+                    "value": "{{variable_value_2}}",
+                    "description": "KeyName2 Description",
+                    "type": "integer"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "samplepostaction",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "variable_value_1": {
+                        "type": "string",
+                        "description": "KeyName1 Description"
+                    },
+                    "variable_value_2": {
+                        "type": "integer",
+                        "description": "KeyName2 Description"
+                    },
+                    "chat_bot_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "variable_value_1",
+                    "variable_value_2",
+                    "chat_bot_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T00:59:45.829Z",
+        "updatedAt": "2024-06-28T00:59:45.829Z",
+        "deletedAt": "2024-06-28T03:13:10.955Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "variable_value_1",
+            "variable_value_2"
+        ]
+    },
+    {
+        "id": "b1671549-f67c-4bfc-92d5-af03b05fcade",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Send_whatsapp_message",
+        "description": "Send a WhatsApp message using the WhatsApp Business API",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v17.0/PHONE_NUMBER_ID/messages",
+            "headers": {
+                "Authorization": "Bearer ACCESS_TOKEN",
+                "Content-Type": "application/json"
+            },
+            "pathParams": [],
+            "queryParams": [],
+            "body": [
+                {
+                    "key": "messaging_product",
+                    "value": "{{messaging_product}}",
+                    "type": "string"
+                },
+                {
+                    "key": "to",
+                    "value": "{{to}}",
+                    "type": "string"
+                },
+                {
+                    "key": "type",
+                    "value": "{{type}}",
+                    "type": "string"
+                },
+                {
+                    "key": "text",
+                    "value": "{{text}}",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "send_whatsapp_message",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "messaging_product": {
+                        "type": "string"
+                    },
+                    "to": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "messaging_product",
+                    "to",
+                    "type",
+                    "text"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-27T10:10:03.016Z",
+        "updatedAt": "2024-06-27T10:10:03.016Z",
+        "deletedAt": "2024-06-28T03:13:15.159Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "messaging_product",
+            "to",
+            "type",
+            "text"
+        ]
+    },
+    {
+        "id": "11f715bf-f911-4c44-8fa1-7e8f3da29dc0",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Get_style_recommendations",
+        "description": "This action fetches style recommendations based on category, season, and target market from Zyod's style database.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://api.zyod.com/styles/recommendations",
+            "headers": {
+                "Authorization": "Bearer ${api_key}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "category",
+                    "value": "{{category}}",
+                    "description": "category Description",
+                    "type": "string"
+                },
+                {
+                    "key": "season",
+                    "value": "{{season}}",
+                    "description": "season Description",
+                    "type": "string"
+                },
+                {
+                    "key": "target_market",
+                    "value": "{{target_market}}",
+                    "description": "target_market Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "get_style_recommendations",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "category Description"
+                    },
+                    "season": {
+                        "type": "string",
+                        "description": "season Description"
+                    },
+                    "target_market": {
+                        "type": "string",
+                        "description": "target_market Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "category",
+                    "season",
+                    "target_market"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T15:11:15.178Z",
+        "updatedAt": "2024-06-28T15:11:15.178Z",
+        "deletedAt": "2024-06-30T04:38:33.823Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "category",
+            "season",
+            "target_market"
+        ]
+    },
+    {
+        "id": "b130db00-231c-4eb1-936f-27caef18f93c",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_facebook_custom_audience",
+        "description": "Create a new custom audience in Facebook Ads",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v17.0/{{ad_account_id}}/customaudiences",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${access_token}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "ad_account_id",
+                    "value": "{{ad_account_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "name",
+                    "value": "{{audience_name}}",
+                    "description": "name Description",
+                    "type": "string"
+                },
+                {
+                    "key": "subtype",
+                    "value": "CUSTOM",
+                    "description": "subtype Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{audience_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "customer_file_source",
+                    "value": "USER_PROVIDED_ONLY",
+                    "description": "customer_file_source Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_facebook_custom_audience",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "audience_name": {
+                        "type": "string",
+                        "description": "name Description"
+                    },
+                    "audience_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "ad_account_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "audience_name",
+                    "audience_description",
+                    "ad_account_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T11:24:20.616Z",
+        "updatedAt": "2024-06-28T11:24:20.616Z",
+        "deletedAt": "2024-06-30T04:38:40.138Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "audience_name",
+            "audience_description"
+        ]
+    },
+    {
+        "id": "efaf8a0a-86fd-4cf1-9537-a362aa6b0471",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_shopify_order",
+        "description": "Create a new order in Shopify with the provided customer and product details.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://${SHOP_NAME}.myshopify.com/admin/api/2024-04/orders.json",
+            "headers": {
+                "Content-Type": "application/json",
+                "X-Shopify-Access-Token": "{{SHOPIFY_ACCESS_TOKEN}}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "order",
+                    "value": {
+                        "line_items": [
+                            {
+                                "variant_id": "${VARIANT_ID}",
+                                "quantity": "${QUANTITY}"
+                            }
+                        ],
+                        "customer": {
+                            "first_name": "${CUSTOMER_FIRST_NAME}",
+                            "last_name": "${CUSTOMER_LAST_NAME}",
+                            "email": "${CUSTOMER_EMAIL}"
+                        },
+                        "financial_status": "pending"
+                    },
+                    "description": "order Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_shopify_order",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-30T04:42:06.444Z",
+        "updatedAt": "2024-06-30T04:42:06.444Z",
+        "deletedAt": "2024-07-11T10:48:44.578Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "5d4b6919-0284-4d99-80ba-cd064960312a",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Send_email_sendgrid",
+        "description": "This action sends an email using the Twilio SendGrid API. It requires the following parameters: SENDGRID_API_KEY, TO_EMAIL, TO_NAME, SUBJECT, FROM_EMAIL, FROM_NAME, REPLY_TO_EMAIL, REPLY_TO_NAME, and EMAIL_CONTENT. The action will send a plain text email to the specified recipient.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://api.sendgrid.com/v3/mail/send",
+            "headers": {
+                "Authorization": "Bearer ${SENDGRID_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "personalizations",
+                    "value": [
+                        {
+                            "to": [
+                                {
+                                    "email": "${TO_EMAIL}",
+                                    "name": "${TO_NAME}"
+                                }
+                            ],
+                            "subject": "${SUBJECT}"
+                        }
+                    ],
+                    "description": "personalizations Description",
+                    "type": "string"
+                },
+                {
+                    "key": "from",
+                    "value": {
+                        "email": "${FROM_EMAIL}",
+                        "name": "${FROM_NAME}"
+                    },
+                    "description": "from Description",
+                    "type": "string"
+                },
+                {
+                    "key": "reply_to",
+                    "value": {
+                        "email": "${REPLY_TO_EMAIL}",
+                        "name": "${REPLY_TO_NAME}"
+                    },
+                    "description": "reply_to Description",
+                    "type": "string"
+                },
+                {
+                    "key": "content",
+                    "value": [
+                        {
+                            "type": "text/plain",
+                            "value": "${EMAIL_CONTENT}"
+                        }
+                    ],
+                    "description": "content Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "send_email_sendgrid",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T05:11:47.501Z",
+        "updatedAt": "2024-07-03T05:11:47.501Z",
+        "deletedAt": "2024-07-11T10:48:40.770Z",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "f56863b3-8100-46b3-a0ec-b83fcc1ef424",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CheckCalendarAvailability",
+        "description": "This action checks the availability of the real estate agent's Google Calendar for a specified time range.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://www.googleapis.com/calendar/v3/calendars/{{calendar_id}}/events",
+            "headers": {
+                "Authorization": "Bearer ${access_token}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "calendar_id",
+                    "value": "{{calendar_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "queryParams": [
+                {
+                    "key": "timeMin",
+                    "value": "{{key}}",
+                    "description": "Parameter: timeMin",
+                    "type": "string"
+                },
+                {
+                    "key": "timeMax",
+                    "value": "{{key}}",
+                    "description": "Parameter: timeMax",
+                    "type": "string"
+                },
+                {
+                    "key": "singleEvents",
+                    "value": "{{key}}",
+                    "description": "Parameter: singleEvents",
+                    "type": "string"
+                },
+                {
+                    "key": "orderBy",
+                    "value": "{{key}}",
+                    "description": "Parameter: orderBy",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "checkcalendaravailability",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: orderBy"
+                    },
+                    "calendar_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key",
+                    "calendar_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-06T19:05:31.169Z",
+        "updatedAt": "2024-07-06T19:05:31.169Z",
+        "deletedAt": "2024-07-11T10:48:28.946Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "key",
+            "key",
+            "key",
+            "key"
+        ]
+    },
+
+    {
+        "id": "b111c2a3-3b3e-40ef-bc0b-a032b045c6a9",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "GetFacebookAdReports",
+        "description": "This action retrieves Facebook ad reports using the Marketing API. It fetches insights for the last 30 days, including campaign name, ad set name, ad name, spend, impressions, clicks, and CTR. It requires the ad account ID and access token.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://graph.facebook.com/v17.0/act_${ad_account_id}/insights",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": [
+                {
+                    "key": "access_token",
+                    "value": "{{key}}",
+                    "description": "Parameter: access_token",
+                    "type": "string"
+                },
+                {
+                    "key": "fields",
+                    "value": "{{key}}",
+                    "description": "Parameter: fields",
+                    "type": "string"
+                },
+                {
+                    "key": "date_preset",
+                    "value": "{{key}}",
+                    "description": "Parameter: date_preset",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "getfacebookadreports",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: date_preset"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T20:32:49.869Z",
+        "updatedAt": "2024-07-03T20:32:49.869Z",
+        "deletedAt": "2024-07-11T10:48:31.952Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "key",
+            "key",
+            "key"
+        ]
+    },
+    {
+        "id": "2c2fabbf-c043-4b5f-9583-284641ad402b",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "CreateFacebookAdSet",
+        "description": "This action creates a new Facebook ad set using the Marketing API. It requires the ad account ID, ad set name, bid amount, daily budget, campaign ID, targeting options, and access token. The ad set is created in a paused state by default for safety.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v17.0/act_${ad_account_id}/adsets",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "name",
+                    "value": "{{ad_set_name}}",
+                    "description": "name Description",
+                    "type": "string"
+                },
+                {
+                    "key": "optimization_goal",
+                    "value": "REACH",
+                    "description": "optimization_goal Description",
+                    "type": "string"
+                },
+                {
+                    "key": "billing_event",
+                    "value": "IMPRESSIONS",
+                    "description": "billing_event Description",
+                    "type": "string"
+                },
+                {
+                    "key": "bid_amount",
+                    "value": "{{bid_amount}}",
+                    "description": "bid_amount Description",
+                    "type": "string"
+                },
+                {
+                    "key": "daily_budget",
+                    "value": "{{daily_budget}}",
+                    "description": "daily_budget Description",
+                    "type": "string"
+                },
+                {
+                    "key": "campaign_id",
+                    "value": "{{campaign_id}}",
+                    "description": "campaign_id Description",
+                    "type": "string"
+                },
+                {
+                    "key": "targeting",
+                    "value": "{{targeting_json}}",
+                    "description": "targeting Description",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "PAUSED",
+                    "description": "status Description",
+                    "type": "string"
+                },
+                {
+                    "key": "access_token",
+                    "value": "{{access_token}}",
+                    "description": "access_token Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "createfacebookadset",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ad_set_name": {
+                        "type": "string",
+                        "description": "name Description"
+                    },
+                    "bid_amount": {
+                        "type": "string",
+                        "description": "bid_amount Description"
+                    },
+                    "daily_budget": {
+                        "type": "string",
+                        "description": "daily_budget Description"
+                    },
+                    "campaign_id": {
+                        "type": "string",
+                        "description": "campaign_id Description"
+                    },
+                    "targeting_json": {
+                        "type": "string",
+                        "description": "targeting Description"
+                    },
+                    "access_token": {
+                        "type": "string",
+                        "description": "access_token Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ad_set_name",
+                    "bid_amount",
+                    "daily_budget",
+                    "campaign_id",
+                    "targeting_json",
+                    "access_token"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-07-03T20:32:30.293Z",
+        "updatedAt": "2024-07-03T20:32:30.293Z",
+        "deletedAt": "2024-07-11T10:48:33.790Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "ad_set_name",
+            "bid_amount",
+            "daily_budget",
+            "campaign_id",
+            "targeting_json",
+            "access_token"
+        ]
+    },
+    {
+        "id": "42f78d19-bf22-40be-a130-33bcbd185dc5",
+        "chatbotId": "657c36de-7734-4444-a306-1bce0ffcc8b7",
+        "name": "Create_razorpay_payment_link",
+        "description": "Generate a Razorpay QR payment link for a given order amount and customer details.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://api.razorpay.com/v1/payment_links",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${RAZORPAY_AUTH}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "amount",
+                    "value": "{{AMOUNT}}",
+                    "description": "amount Description",
+                    "type": "string"
+                },
+                {
+                    "key": "currency",
+                    "value": "INR",
+                    "description": "currency Description",
+                    "type": "string"
+                },
+                {
+                    "key": "accept_partial",
+                    "value": false,
+                    "description": "accept_partial Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{DESCRIPTION}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "customer",
+                    "value": {
+                        "name": "${CUSTOMER_NAME}",
+                        "email": "${CUSTOMER_EMAIL}",
+                        "contact": "${CUSTOMER_PHONE}"
+                    },
+                    "description": "customer Description",
+                    "type": "string"
+                },
+                {
+                    "key": "notify",
+                    "value": {
+                        "sms": true,
+                        "email": true
+                    },
+                    "description": "notify Description",
+                    "type": "string"
+                },
+                {
+                    "key": "reminder_enable",
+                    "value": true,
+                    "description": "reminder_enable Description",
+                    "type": "string"
+                },
+                {
+                    "key": "notes",
+                    "value": {
+                        "order_id": "${ORDER_ID}"
+                    },
+                    "description": "notes Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_razorpay_payment_link",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "AMOUNT": {
+                        "type": "string",
+                        "description": "amount Description"
+                    },
+                    "DESCRIPTION": {
+                        "type": "string",
+                        "description": "description Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "AMOUNT",
+                    "DESCRIPTION"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-30T04:42:30.937Z",
+        "updatedAt": "2024-06-30T04:42:30.937Z",
+        "deletedAt": "2024-07-11T10:48:42.520Z",
+        "groupType": "Custom action",
+        "placeholders": [
+            "AMOUNT",
+            "DESCRIPTION"
+        ]
+    }
+]

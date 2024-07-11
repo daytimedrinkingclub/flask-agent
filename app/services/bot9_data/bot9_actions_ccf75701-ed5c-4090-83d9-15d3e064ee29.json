@@ -1,0 +1,855 @@
+[
+    {
+        "id": "e2eb5494-8619-4548-a2ba-10759849f370",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Check_loan_status",
+        "description": "This action checks the current status of a loan by querying the MAZO Capital API using the provided loan ID.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.mazocapital.com/v1/loan-status",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${API_KEY}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": [
+                {
+                    "key": "loan_id",
+                    "value": "{{key}}",
+                    "description": "Parameter: loan_id",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "check_loan_status",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: loan_id"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:29:36.368Z",
+        "updatedAt": "2024-06-28T03:29:36.368Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "key"
+        ]
+    },
+    {
+        "id": "4020c1cd-d765-42f9-b203-8fca0068cc6f",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Get_facebook_ad_report",
+        "description": "This action generates a report for a specified Facebook ad account. It requires the ad account ID, access token, date preset (e.g., last_30d), and level (e.g., account). The report includes impressions, clicks, and spend data.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://graph.facebook.com/v20.0/act_${ad_account_id}/insights",
+            "headers": {
+                "Authorization": "Bearer ${access_token}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": [
+                {
+                    "key": "fields",
+                    "value": "{{key}}",
+                    "description": "Parameter: fields",
+                    "type": "string"
+                },
+                {
+                    "key": "date_preset",
+                    "value": "{{key}}",
+                    "description": "Parameter: date_preset",
+                    "type": "string"
+                },
+                {
+                    "key": "level",
+                    "value": "{{key}}",
+                    "description": "Parameter: level",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "get_facebook_ad_report",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "key": {
+                        "type": "string",
+                        "description": "Parameter: level"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "key"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:50:07.958Z",
+        "updatedAt": "2024-06-28T03:50:07.958Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "key",
+            "key",
+            "key"
+        ]
+    },
+    {
+        "id": "3719a195-688b-4d90-83d1-84b06acfd618",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Create_freshdesk_ticket",
+        "description": "This action creates a new ticket in Freshdesk using the provided information. It requires the following parameters: domain (Freshdesk domain), base64_encoded_api_key (API key encoded in base64), ticket_description, ticket_subject, requester_email, priority (as a number), status (as a number), and cc_emails_array (as a JSON array of email addresses).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://${domain}.freshdesk.com/api/v2/tickets",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "description",
+                    "value": "{{ticket_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "subject",
+                    "value": "{{ticket_subject}}",
+                    "description": "subject Description",
+                    "type": "string"
+                },
+                {
+                    "key": "email",
+                    "value": "{{requester_email}}",
+                    "description": "email Description",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "description": "priority Description",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "description": "status Description",
+                    "type": "string"
+                },
+                {
+                    "key": "cc_emails",
+                    "value": "{{cc_emails_array}}",
+                    "description": "cc_emails Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_freshdesk_ticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "ticket_subject": {
+                        "type": "string",
+                        "description": "subject Description"
+                    },
+                    "requester_email": {
+                        "type": "string",
+                        "description": "email Description"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "priority Description"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "status Description"
+                    },
+                    "cc_emails_array": {
+                        "type": "string",
+                        "description": "cc_emails Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_description",
+                    "ticket_subject",
+                    "requester_email",
+                    "priority",
+                    "status",
+                    "cc_emails_array"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:21:33.045Z",
+        "updatedAt": "2024-06-28T03:21:33.045Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "ticket_description",
+            "ticket_subject",
+            "requester_email",
+            "priority",
+            "status",
+            "cc_emails_array"
+        ]
+    },
+    {
+        "id": "8b8f45d4-94c2-4b71-afaf-81e2fadc024e",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Send_whatsapp_limechat",
+        "description": "This action sends a WhatsApp message using the Limechat API. It requires the following parameters: limechat_api_key (your Limechat API key), recipient_phone_number (including country code), and message_content (the text message to send).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://api.limechat.ai/v1/send_message",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${limechat_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "phone_number",
+                    "value": "{{recipient_phone_number}}",
+                    "description": "phone_number Description",
+                    "type": "string"
+                },
+                {
+                    "key": "message",
+                    "value": "{{message_content}}",
+                    "description": "message Description",
+                    "type": "string"
+                },
+                {
+                    "key": "message_type",
+                    "value": "text",
+                    "description": "message_type Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "send_whatsapp_limechat",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "recipient_phone_number": {
+                        "type": "string",
+                        "description": "phone_number Description"
+                    },
+                    "message_content": {
+                        "type": "string",
+                        "description": "message Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "recipient_phone_number",
+                    "message_content"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:22:52.279Z",
+        "updatedAt": "2024-06-28T03:22:52.279Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "recipient_phone_number",
+            "message_content"
+        ]
+    },
+    {
+        "id": "53c5c812-6785-4dea-8d2f-717bdcbd728c",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Update_freshdesk_ticket",
+        "description": "This action updates an existing ticket in Freshdesk. It requires the following parameters: domain (Freshdesk domain), ticket_id (ID of the ticket to update), base64_encoded_api_key (API key encoded in base64), status (as a number), priority (as a number), ticket_subject, ticket_description, and custom_fields_json (a JSON object with custom field key-value pairs).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "PUT",
+            "url": "https://${domain}.freshdesk.com/api/v2/tickets/{{ticket_id}}",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Basic ${base64_encoded_api_key}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "ticket_id",
+                    "value": "{{ticket_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "status",
+                    "value": "{{status}}",
+                    "description": "status Description",
+                    "type": "string"
+                },
+                {
+                    "key": "priority",
+                    "value": "{{priority}}",
+                    "description": "priority Description",
+                    "type": "string"
+                },
+                {
+                    "key": "subject",
+                    "value": "{{ticket_subject}}",
+                    "description": "subject Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{ticket_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "custom_fields",
+                    "value": "{{custom_fields_json}}",
+                    "description": "custom_fields Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "update_freshdesk_ticket",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "status Description"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "priority Description"
+                    },
+                    "ticket_subject": {
+                        "type": "string",
+                        "description": "subject Description"
+                    },
+                    "ticket_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "custom_fields_json": {
+                        "type": "string",
+                        "description": "custom_fields Description"
+                    },
+                    "ticket_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "status",
+                    "priority",
+                    "ticket_subject",
+                    "ticket_description",
+                    "custom_fields_json",
+                    "ticket_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:23:25.767Z",
+        "updatedAt": "2024-06-28T03:23:25.767Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "status",
+            "priority",
+            "ticket_subject",
+            "ticket_description",
+            "custom_fields_json"
+        ]
+    },
+    {
+        "id": "f059d303-02a6-4fbe-8663-77179b1d2f50",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Calculate_financing",
+        "description": "This action calculates the estimated monthly payment for equipment financing based on the equipment cost, down payment, and term length provided by the customer.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://api.mazocapital.com/v1/calculate-financing",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${API_KEY}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "equipment_cost",
+                    "value": "{{EQUIPMENT_COST}}",
+                    "description": "equipment_cost Description",
+                    "type": "string"
+                },
+                {
+                    "key": "down_payment",
+                    "value": "{{DOWN_PAYMENT}}",
+                    "description": "down_payment Description",
+                    "type": "string"
+                },
+                {
+                    "key": "term_length",
+                    "value": "{{TERM_LENGTH}}",
+                    "description": "term_length Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "calculate_financing",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "EQUIPMENT_COST": {
+                        "type": "string",
+                        "description": "equipment_cost Description"
+                    },
+                    "DOWN_PAYMENT": {
+                        "type": "string",
+                        "description": "down_payment Description"
+                    },
+                    "TERM_LENGTH": {
+                        "type": "string",
+                        "description": "term_length Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "EQUIPMENT_COST",
+                    "DOWN_PAYMENT",
+                    "TERM_LENGTH"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:30:02.616Z",
+        "updatedAt": "2024-06-28T03:30:02.616Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "EQUIPMENT_COST",
+            "DOWN_PAYMENT",
+            "TERM_LENGTH"
+        ]
+    },
+    {
+        "id": "4063e84d-905e-4099-af77-f3c5612efa20",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Add_users_to_facebook_audience",
+        "description": "This action adds a user to a specified Facebook Ads custom audience. It requires the custom audience ID, access token, and user details (email, phone, first name, last name).",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v20.0/{{custom_audience_id}}/users",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${access_token}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "custom_audience_id",
+                    "value": "{{custom_audience_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "payload",
+                    "value": {
+                        "schema": [
+                            "EMAIL",
+                            "PHONE",
+                            "FN",
+                            "LN"
+                        ],
+                        "data": [
+                            [
+                                "${email}",
+                                "${phone}",
+                                "${first_name}",
+                                "${last_name}"
+                            ]
+                        ]
+                    },
+                    "description": "payload Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "add_users_to_facebook_audience",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "custom_audience_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "custom_audience_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:49:04.647Z",
+        "updatedAt": "2024-06-28T03:49:04.647Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "b41ce9ce-7fda-4fbd-a662-a13fd58dc49d",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Create_facebook_ad",
+        "description": "This action creates a new Facebook ad within a specified ad account. It requires the ad account ID, access token, ad name, adset ID, page ID, website URL, ad message, ad caption, and image hash.",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v20.0/act_${ad_account_id}/ads",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${access_token}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "body": [
+                {
+                    "key": "name",
+                    "value": "{{ad_name}}",
+                    "description": "name Description",
+                    "type": "string"
+                },
+                {
+                    "key": "adset_id",
+                    "value": "{{adset_id}}",
+                    "description": "adset_id Description",
+                    "type": "string"
+                },
+                {
+                    "key": "creative",
+                    "value": {
+                        "object_story_spec": {
+                            "page_id": "${page_id}",
+                            "link_data": {
+                                "link": "${website_url}",
+                                "message": "${ad_message}",
+                                "caption": "${ad_caption}",
+                                "image_hash": "${image_hash}"
+                            }
+                        }
+                    },
+                    "description": "creative Description",
+                    "type": "string"
+                },
+                {
+                    "key": "status",
+                    "value": "PAUSED",
+                    "description": "status Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_facebook_ad",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ad_name": {
+                        "type": "string",
+                        "description": "name Description"
+                    },
+                    "adset_id": {
+                        "type": "string",
+                        "description": "adset_id Description"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ad_name",
+                    "adset_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T03:49:38.313Z",
+        "updatedAt": "2024-06-28T03:49:38.313Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "ad_name",
+            "adset_id"
+        ]
+    },
+    {
+        "id": "7a5d49c9-08b3-442f-8ab5-ab5c64f63fa5",
+        "chatbotId": "ccf75701-ed5c-4090-83d9-15d3e064ee29",
+        "name": "Create_facebook_custom_audience",
+        "description": "Create a new custom audience in Facebook Ads",
+        "actionType": "http_request",
+        "meta": {
+            "method": "POST",
+            "url": "https://graph.facebook.com/v17.0/{{ad_account_id}}/customaudiences",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ${access_token}"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "pathParams": [
+                {
+                    "key": "ad_account_id",
+                    "value": "{{ad_account_id}}",
+                    "description": "",
+                    "type": "string"
+                }
+            ],
+            "body": [
+                {
+                    "key": "name",
+                    "value": "{{audience_name}}",
+                    "description": "name Description",
+                    "type": "string"
+                },
+                {
+                    "key": "subtype",
+                    "value": "CUSTOM",
+                    "description": "subtype Description",
+                    "type": "string"
+                },
+                {
+                    "key": "description",
+                    "value": "{{audience_description}}",
+                    "description": "description Description",
+                    "type": "string"
+                },
+                {
+                    "key": "customer_file_source",
+                    "value": "USER_PROVIDED_ONLY",
+                    "description": "customer_file_source Description",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "create_facebook_custom_audience",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "audience_name": {
+                        "type": "string",
+                        "description": "name Description"
+                    },
+                    "audience_description": {
+                        "type": "string",
+                        "description": "description Description"
+                    },
+                    "ad_account_id": {
+                        "type": "string",
+                        "description": ""
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "audience_name",
+                    "audience_description",
+                    "ad_account_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "2024-06-28T04:56:26.309Z",
+        "updatedAt": "2024-06-28T04:56:26.309Z",
+        "deletedAt": null,
+        "groupType": "Custom action",
+        "placeholders": [
+            "audience_name",
+            "audience_description"
+        ]
+    }
+]

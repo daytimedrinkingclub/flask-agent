@@ -1,6 +1,6 @@
 import requests
 import logging
-
+import json
 from ...extensions import db
 from ...models.models import Chatbot, ChatbotInstructionCategory, ChatbotInstruction, ChatbotAction
 
@@ -53,32 +53,35 @@ class Bot9DataService:
                 logging.warning(f"Attempted to save instructions for non-existent chatbot: {bot9_chatbot_id}")
                 return False, "Chatbot does not exist"
 
+            # Get all existing categories and instructions for this chatbot
+            existing_categories = ChatbotInstructionCategory.query.filter_by(bot9_chatbot_id=bot9_chatbot_id).all()
+            existing_instructions = ChatbotInstruction.query.filter_by(bot9_chatbot_id=bot9_chatbot_id).all()
+
+            # Keep track of processed categories and instructions
+            processed_category_ids = set()
+            processed_instruction_ids = set()
+
             # Update or create instruction categories and instructions
             for category in instruction_categories:
-                existing_category = ChatbotInstructionCategory.query.filter_by(
-                    bot9_chatbot_id=bot9_chatbot_id,
-                    bot9_instruction_category_id=category.get('id')
-                ).first()
+                existing_category = next((c for c in existing_categories if c.bot9_instruction_category_id == category.get('id')), None)
 
                 if existing_category:
                     existing_category.bot9_instruction_category_name = category.get('name', 'Unnamed Category')
                     existing_category.bot9_instruction_category_description = category.get('description', '')
                 else:
-                    new_category = ChatbotInstructionCategory(
+                    existing_category = ChatbotInstructionCategory(
                         bot9_chatbot_id=bot9_chatbot_id,
                         bot9_instruction_category_id=category.get('id'),
                         bot9_instruction_category_name=category.get('name', 'Unnamed Category'),
                         bot9_instruction_category_description=category.get('description', '')
                     )
-                    db.session.add(new_category)
-                    db.session.flush()
-                    existing_category = new_category
+                    db.session.add(existing_category)
+
+                db.session.flush()
+                processed_category_ids.add(existing_category.bot9_instruction_category_id)
 
                 for instruction in category.get('instructions', []):
-                    existing_instruction = ChatbotInstruction.query.filter_by(
-                        bot9_chatbot_id=bot9_chatbot_id,
-                        bot9_instruction_id=instruction.get('id')
-                    ).first()
+                    existing_instruction = next((i for i in existing_instructions if i.bot9_instruction_id == instruction.get('id')), None)
 
                     if existing_instruction:
                         existing_instruction.bot9_instruction_name = instruction.get('instructionName', 'Unnamed Instruction')
@@ -95,7 +98,18 @@ class Bot9DataService:
                             category_id=existing_category.id
                         )
                         db.session.add(new_instruction)
-            
+
+                    processed_instruction_ids.add(instruction.get('id'))
+
+            # Remove categories and instructions that are not in the new data
+            for category in existing_categories:
+                if category.bot9_instruction_category_id not in processed_category_ids:
+                    db.session.delete(category)
+
+            for instruction in existing_instructions:
+                if instruction.bot9_instruction_id not in processed_instruction_ids:
+                    db.session.delete(instruction)
+
             db.session.commit()
             return True, "Instructions and categories updated successfully"
         except Exception as e:
@@ -111,6 +125,7 @@ class Bot9DataService:
             'authorization': f'Bearer {bot9_token}'
         }
         response = requests.get(url, headers=headers)
+        print(response.json())
         return response.json()
 
 
@@ -121,8 +136,30 @@ class Bot9DataService:
             'accept': 'application/json, text/plain, */*',
             'authorization': f'Bearer {bot9_token}',
         }
-        response = requests.get(url, headers=headers)
-        return response.json()
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            
+            actions = response.json()
+            print(f"Fetched {len(actions)} actions for chatbot ID: {bot9_chatbot_id}")
+
+            active_actions = [
+                action for action in actions 
+                if action.get('isActive') is True and action.get('deletedAt') is None
+            ]
+            print(f"Active actions for chatbot ID {bot9_chatbot_id}: {len(active_actions)}")
+            
+            return active_actions
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching actions for chatbot ID {bot9_chatbot_id}: {e}")
+            return []
+        except ValueError as e:
+            print(f"Error parsing JSON for chatbot ID {bot9_chatbot_id}: {e}")
+            return []
+        except Exception as e:
+            print(f"Unexpected error for chatbot ID {bot9_chatbot_id}: {e}")
+            return []
 
     @staticmethod
     def save_bot9_actions(bot9_chatbot_id, actions):
@@ -137,15 +174,17 @@ class Bot9DataService:
                     bot9_action_id=action['id'],
                     bot9_action_name=action['name'],
                     bot9_action_description=action.get('description', ''),
-                    bot9_action_type=action.get('type', ''),
-                    bot9_action_meta=action.get('meta', '')
+                    bot9_action_type=action.get('actionType', ''),
+                    bot9_action_meta=json.dumps(action.get('meta', {}))  # Convert dict to JSON string
                 )
                 db.session.add(new_action)
             
             db.session.commit()
+            print(f"Saved {len(actions)} actions for chatbot ID: {bot9_chatbot_id}")
             return True, "Actions saved successfully"
         except Exception as e:
             db.session.rollback()
+            print(f"Error storing actions for chatbot ID {bot9_chatbot_id}: {str(e)}")
             return False, f"Error storing actions: {str(e)}"
 
     @staticmethod

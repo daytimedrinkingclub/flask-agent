@@ -1,0 +1,11 @@
+<!-- templates/layouts/auth_layout.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="relative z-20 max-w-md mx-auto bg-dark-gray p-6 rounded-lg shadow-md mt-20 border border-light-gray">
+    {% block auth_content %}{% endblock %}
+</div>
+<div class="fixed inset-0 z-10 pointer-events-none">
+    <div class="absolute inset-0 shimmer"></div>
+</div>
+{% endblock %}

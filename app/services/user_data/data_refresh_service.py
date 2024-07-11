@@ -8,27 +8,29 @@ class DataRefreshService:
         token = TokenService.get_bot9_token(user_id)
         if not token:
             print("No token found")
-            return "No token found"
+            return None, "No token found"
         
         # Fetch chatbots
         print("Fetching chatbots")
         chatbots = Bot9DataService.fetch_bot9_chatbots(token)
         if not chatbots:
             print("No chatbots found")
-            return "No chatbots found"
+            return None, "No chatbots found"
         
         # Save chatbots
         print(f"Saving {len(chatbots)} chatbots")
         success, message = Bot9DataService.save_bot9_chatbots(user_id, chatbots)
         if not success:
             print(f"Error saving chatbots: {message}")
-            return message
+            return None, message
 
-        # Fetch and save instructions for all unique chatbots
+        # Fetch and save instructions and actions for all unique chatbots
         unique_chatbot_ids = set(chatbot['id'] for chatbot in chatbots)
-        print(f"Fetching and saving instructions for {len(unique_chatbot_ids)} unique chatbots")
+        print(f"Processing {len(unique_chatbot_ids)} unique chatbots")
         for chatbot_id in unique_chatbot_ids:
             print(f"Processing chatbot_id: {chatbot_id}")
+            
+            # Fetch and save instructions
             instructions = Bot9DataService.fetch_bot9_chatbot_instructions(chatbot_id, token)
             if instructions:
                 print(f"Saving {len(instructions)} instructions for chatbot_id: {chatbot_id}")
@@ -36,18 +38,15 @@ class DataRefreshService:
                 if not success:
                     print(f"Error saving instructions for chatbot {chatbot_id}: {message}")
                     return f"Error saving instructions for chatbot {chatbot_id}: {message}"
-
-        # Ensure chatbots have the correct structure
-        formatted_chatbots = []
-        for chatbot in chatbots:
-            formatted_chatbot = {
-                'bot9_chatbot_id': chatbot.get('id'),
-                'bot9_chatbot_name': chatbot.get('name'),
-                'bot9_chatbot_url': chatbot.get('url', ''),
-                'instructions': [],  # Will be populated later
-                'actions': []  # Will be populated later
-            }
-            formatted_chatbots.append(formatted_chatbot)
+            
+            # Fetch and save actions
+            actions = Bot9DataService.fetch_bot9_actions(chatbot_id, token)
+            if actions:
+                print(f"Saving {len(actions)} actions for chatbot_id: {chatbot_id}")
+                success, message = Bot9DataService.save_bot9_actions(chatbot_id, actions)
+                if not success:
+                    print(f"Error saving actions for chatbot {chatbot_id}: {message}")
+                    return f"Error saving actions for chatbot {chatbot_id}: {message}"
 
         print("Data refresh completed successfully")
-        return formatted_chatbots
+        return chatbots, "Data refresh completed successfully"

@@ -1,0 +1,164 @@
+[
+    {
+        "id": "<action-id>",
+        "chatbotId": "<bot9-chatbot-id>",
+        "name": "<action-name>",
+        "description": "<action-description>",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://{{your_domain}}.freshdesk.com/api/v2/tickets/{{ticket_id}}",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Basic {{base64_encoded_api_key}}"
+            },
+            "pathParams": [
+                {
+                    "key": "ticket_id",
+                    "value": "{{ticket_id}}",
+                    "description": "ticket id for which the status needs to be checked",
+                    "type": "string"
+                }
+            ]
+        },
+        "llmFunction": {
+            "name": "getfreshdeskticket_2",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    },
+                    "ticket_id": {
+                        "type": "string",
+                        "description": "ticket id for which the status needs to be checked"
+                    }
+                },
+                "required": [
+                    "answerText",
+                    "ticket_id"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": false,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "<action-created-at>",
+        "updatedAt": "<action-updated-at>",
+        "deletedAt": "<action-deleted-at>",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "<action-id>",
+        "chatbotId": "<bot9-chatbot-id>",
+        "name": "<action-name>",
+        "description": "<action-description>",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://api.calendly.com/user_availability_schedules?user=${USER_URI}",
+            "headers": {
+                "Authorization": "Bearer ${CALENDLY_API_TOKEN}",
+                "Content-Type": "application/json"
+            },
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "queryParams": []
+        },
+        "llmFunction": {
+            "name": "get_calendly_availability",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": true,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "<action-created-at>",
+        "updatedAt": "<action-updated-at>",
+        "deletedAt": "<action-deleted-at>",
+        "groupType": "Custom action",
+        "placeholders": []
+    },
+    {
+        "id": "<action-id>",
+        "chatbotId": "<bot9-chatbot-id>",
+        "name": "<action-name>",
+        "description": "<action-description>",
+        "actionType": "http_request",
+        "meta": {
+            "method": "GET",
+            "url": "https://shipstation.ai",
+            "logoURL": "",
+            "code": "",
+            "denoDeploymentId": "",
+            "headers": {
+                "Authorization": "Token"
+            }
+        },
+        "llmFunction": {
+            "name": "<action-name>",
+            "description": ".",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "answerText": {
+                        "type": "string",
+                        "description": "based on the function description you have to give a text answer of the question as well. use this param for that"
+                    }
+                },
+                "required": [
+                    "answerText"
+                ]
+            },
+            "return": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "isActive": true,
+        "isSideEffect": false,
+        "source": "manual",
+        "createdAt": "<action-created-at>",
+        "updatedAt": "<action-updated-at>",
+        "deletedAt": "<action-deleted-at>",
+        "groupType": "Custom action",
+        "placeholders": []
+    }
+]

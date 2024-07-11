@@ -31,7 +31,7 @@ def signup():
             login_user(new_user)
             return redirect(url_for('main.dashboard'))
         
-    return render_template('auth/signup.html')
+    return render_template('pages/auth/signup.html')
 
 @bp.route('/login', methods=['GET', 'POST']) 
 def login():
@@ -53,7 +53,7 @@ def login():
             current_app.logger.error(f"Error in login route: {str(e)}")
             flash('An error occurred. Please try again later.')
     
-    return render_template('auth/login.html')
+    return render_template('pages/auth/login.html')
 
 @bp.route('/logout')
 @login_required
