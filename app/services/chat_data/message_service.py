@@ -31,9 +31,9 @@ class MessageService:
             status = f"{role}_{tool_name}" if tool_name else f"{role}_tool_result" if tool_result else role
             update_chat_status(chat_id, status)
         
-        q = Queue(connection=get_redis())
+        # q = Queue(connection=get_redis())
 
-        q.enqueue(handle_chat, chat_id)
+        # q.enqueue(handle_chat, chat_id)
         return message
 
     @staticmethod

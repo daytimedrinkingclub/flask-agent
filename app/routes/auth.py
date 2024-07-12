@@ -45,7 +45,6 @@ def login():
             
             if user and check_password_hash(user.password_hash, password):
                 login_user(user, remember=remember)
-                Bot9DataService.get_bot9_chatbot(user.id)
                 return redirect(url_for('main.dashboard'))
             else:
                 flash('Please check your login details and try again.')

@@ -9,24 +9,18 @@
 ```bash
 templates/
 ├── base.html
-├── macros/
-│   ├── forms.html
-│   └── ui_components.html
 ├── layouts/
 │   ├── auth_layout.html
 │   └── dashboard_layout.html
 ├── components/
 │   ├── header.html
 │   ├── footer.html
-│   ├── chatbots_list.html
-│   ├── chat_progress.html
-│   └── user_input_modal.html
+│   └── chatbots_list.html
 ├── pages/
 │   ├── auth/
 │   │   ├── login.html
 │   │   └── signup.html
-│   ├── dashboard.html
-│   └── chat.html
+│   └── dashboard.html
 └── errors/
     └── 500.html
 ```

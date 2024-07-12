@@ -14,14 +14,32 @@
                         'dark-black': '#0a0a0a',
                         'medium-black': '#141414',
                         'light-black': '#1e1e1e',
-                    }
+                    },
+                    keyframes: {
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '25%': { transform: 'translateX(-1px)' },
+                            '75%': { transform: 'translateX(1px)' }
+                        }
+                    },
+                    animation: {
+                        shake: 'shake 0.2s infinite'
+                    },
+                    fontFamily: {
+                        'code': ['Courier', 'monospace'],
+                    },
                 }
             }
         }
     </script>
+    <style>
+        body {
+            font-family: 'Courier', monospace;
+        }
+    </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-black text-gray-300 min-h-screen flex flex-col">
+<body class="bg-black text-gray-300 min-h-screen flex flex-col font-code">
     {% include 'components/header.html' %}
 
     <main class="flex-grow container mx-auto mt-4 px-4">
@@ -40,5 +58,6 @@
     {% include 'components/footer.html' %}
 
     {% block extra_scripts %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/refresh_data.js') }}"></script>
 </body>
 </html>

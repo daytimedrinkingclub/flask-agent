@@ -4,29 +4,20 @@
         <div class="flex-grow"></div>
         <div class="flex space-x-4">
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('main.refresh_data') }}" class="bg-medium-black hover:bg-light-black text-gray-300 text-sm font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button id="refresh-data-btn" class="bg-light-black hover:bg-medium-black text-gray-300 text-sm font-bold py-2 px-4 rounded-md transition duration-300 flex items-center">
+                    <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    Refresh Data
-                </a>
-                <a href="{{ url_for('auth.logout') }}" class="bg-medium-black hover:bg-light-black text-gray-300 text-sm font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
+                    <span id="refresh-text">Sync with Bot9</span>
+                </button>
+                <a href="{{ url_for('auth.logout') }}" class="bg-light-black hover:bg-medium-black text-gray-300 text-sm font-bold py-2 px-4 rounded-md transition duration-300">
                     Logout
                 </a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="bg-medium-black hover:bg-light-black text-gray-300 text-sm font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                    </svg>
+                <a href="{{ url_for('auth.login') }}" class="bg-light-black hover:bg-medium-black text-gray-300 text-sm font-bold py-2 px-4 rounded-md transition duration-300">
                     Login
                 </a>
-                <a href="{{ url_for('auth.signup') }}" class="bg-medium-black hover:bg-light-black text-gray-300 text-sm font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
+                <a href="{{ url_for('auth.signup') }}" class="bg-light-black hover:bg-medium-black text-gray-300 text-sm font-bold py-2 px-4 rounded-md transition duration-300">
                     Sign Up
                 </a>
             {% endif %}
