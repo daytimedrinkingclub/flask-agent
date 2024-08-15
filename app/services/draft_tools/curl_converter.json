@@ -1,0 +1,93 @@
+{
+    "name": "format_curl_format",
+    "description": "This tool will convert the users provided curl details to the requested format, we need to pass the values of a curl in the defined scehma below the path params, query params and body are optional which will depend on method type, additionally if values are passed ensure we maintain order in lists we create",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "curl_name": { 
+            "type": "string", 
+            "description": "The name of the curl that is being converted need to passed in the format of <CurlName>" 
+        },
+        "curl_description": { 
+            "type": "string", 
+            "description": "The description command, i.e what will this particual curl do" 
+        },
+        "curl_method": {
+            "type": "string",
+            "description": "The method of the curl, i.e GET, POST, PUT, DELETE OR PATCH"
+        },
+        "curl_url": {
+            "type": "string",
+            "description": "The url of the curl if the url has any path params, pass them in the format of {{path_param_name}}, yes add double curly brackets for path params, if the url has some variable base domain / etc then pass sample value for that, do not pass them as variables"
+        },
+        "curl_headers": {
+            "type": "array",
+            "properties": {
+                "header_names": {
+                    "type": "string",
+                    "description": "The comma seperated values for all the header names, do not modiy header key name, only seperate all keys to be added by comma"
+                },
+                "header_values": {
+                    "type": "string",
+                    "description": "The comma seperated values for all the header values, do not modify header key name, only seperate all keys to be added by comma if there are any api keys etc to be added in header use <api_key>, <api_secret> etc"
+                }
+            },
+            "required": ["header_names", "header_values"]
+        },
+        "curl_path_params": {
+            "type": "array",
+            "properties": {
+                "path_param_names": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the path param names, do not modify path param key name, only seperate all keys to be added by comma example [param1, param2, param3]"
+                },
+                "path_param_data_type": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the path param data types, do not modify path param key name, only seperate all keys to be added by comma allowed values [string, integer, boolean], example [string, integer, string]"
+                },
+                "path_param_descriptions": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the path param descriptions, do not modify path param key name, only seperate all keys to be added by comma example [description1, description2, description3]"
+                }
+            },
+            "required": ["path_param_names", "path_param_data_type", "path_param_descriptions"]
+        },
+        "curl_query_params": {
+            "type": "array",
+            "properties": {
+                "query_param_names": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the query param names, do not modify query param key name, only seperate all keys to be added by comma example [param1, param2, param3]"
+                },
+                "query_param_data_type": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the query param data types, do not modify query param key name, only seperate all keys to be added by comma allowed values [string, integer, boolean], example [string, integer, string]"
+                },
+                "query_param_descriptions": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the query param descriptions, do not modify query param key name, only seperate all keys to be added by comma example [description1, description2, description3]"
+                }
+            },
+            "required": ["query_param_names", "query_param_data_type", "query_param_descriptions"]
+        },
+        "curl_body": {
+            "type": "array",
+            "properties": {
+                "body_param_names": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the body param names, do not modify body param key name, only seperate all keys to be added by comma example [param1, param2, param3]"
+                },
+                "body_param_data_type": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the body param data types, do not modify body param key name, only seperate all keys to be added by comma allowed values [string, integer, boolean], example [string, integer, string]"
+                },
+                "body_param_descriptions": {
+                    "type": "string",
+                    "description": "The comma seperated list for all the body param descriptions, do not modify body param key name, only seperate all keys to be added by comma example [description1, description2, description3]"
+                }
+            }
+        }
+      },
+      "required": ["curl_name", "curl_description", "curl_method", "curl_url", "curl_headers"]
+    }
+}

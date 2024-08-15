@@ -1,26 +1,34 @@
 {
     "name": "curl_command_writer",
-    "description": "Write a curl command to fetch the given data from the specified API endpoint. The command should include the HTTP method, URL, and any required headers or parameters.",
+    "description": "Write a curl command to fetch the given data from the specified API endpoint. The command should include the HTTP method, URL, and any required headers or parameters, this tool returns the curl file path of the written curl command",
     "input_schema": {
         "type": "object",
         "properties": {
-            "endpoint": { 
+            "endpoint_details": { 
                 "type": "string",
                 "description": "The API endpoint to fetch data from"
             },
-            "method": { 
+            "method_details": { 
                 "type": "string",
                 "description": "The HTTP method to use"
             },
-            "headers": { 
+            "header_details": { 
                 "type": "string",
                 "description": "The headers to include in the request"
             },
-            "parameters": { 
+            "parameter_details": { 
                 "type": "string",
                 "description": "The parameters to include in the request"
+            },
+            "body_details": { 
+                "type": "string",
+                "description": "The body to include in the request"
+            },
+            "additional_details": { 
+                "type": "string",
+                "description": "Any additional details to include in the request or important things to keep in mind"
             }
         },
-        "required": ["endpoint", "method", "headers", "parameters"]
+        "required": ["endpoint_details", "method_details", "header_details", "parameter_details", "body_details", "additional_details"]
     }
 }

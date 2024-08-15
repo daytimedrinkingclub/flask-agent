@@ -1,0 +1,18 @@
+{
+    "name": "write_curl_to_database",
+    "description": "Use this tool to write the curl commands to the database so that data can be retrieved again by the action name, when creating actions on botnine",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "action_name": { 
+            "type": "string", 
+            "description": "The name of the action to write the details to, without any extensions" 
+        },
+        "curl_as_json": { 
+            "type": "string", 
+            "description": "The curl command to write to the database, write the curl command in a json structure, always use the format ${variable_value}, the variable value could be a path param, or data object, api keys, query params, body params" 
+        }
+      },
+      "required": ["action_name", "curl_as_json"]
+    }
+}

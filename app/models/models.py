@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
 # This table stores the tokens for bot9 accounts
 class Token(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    botnine_token = db.Column(db.String(128), unique=True, nullable=False)
+    botnine_token = db.Column(db.String(100000), unique=True, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='tokens')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -26,10 +26,12 @@ class Token(db.Model):
 class Chat(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
-    botnine_chatbot_id = db.Column(db.String(128), unique=False, nullable=True)
+    botnine_chatbot_id = db.Column(db.String(256), unique=False, nullable=True)
     user = relationship('User', back_populates='chats')
     messages = relationship('Message', back_populates='chat', lazy='dynamic', cascade='all, delete-orphan')
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    action_curls = relationship("ActionCurls", back_populates="chat")
 
 # This table stores all types of messages (user, assistant, tool use, tool result)
 class Message(db.Model):
@@ -42,5 +44,14 @@ class Message(db.Model):
     tool_input = db.Column(db.JSON, nullable=True)
     tool_result = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
+    
     chat = relationship('Chat', back_populates='messages')
+
+class ActionCurls(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    chat_id = db.Column(UUID(as_uuid=True), db.ForeignKey('chat.id'), nullable=False)
+    action_name = db.Column(db.Text, nullable=False)
+    curl_as_json = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    chat = relationship('Chat', back_populates='action_curls')

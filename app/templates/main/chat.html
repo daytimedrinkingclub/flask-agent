@@ -1,136 +1,149 @@
-<!-- app/templates/main/chat.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <h1>Chat {{ chat.id }}</h1>
-    </div>
-    <div class="col-md-4 text-right">
-      <p>Welcome, {{ current_user.username }}</p>
-      <p>Bot9 Auth Token: {{ bot9_token }}</p>
-      <a href="{{ url_for('auth.logout') }}" class="btn btn-primary">Logout</a>
-    </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <div id="conversation">
-        {% if conversation %}
-        {% for message in conversation %}
-          <div class="message {% if message.role == 'user' %}user-message{% else %}assistant-message{% endif %}">
-            {% for content in message.content %}
-              {% if content.type == 'text' %}
-                <p><strong>{{ message.role|capitalize }}:</strong> {{ content.text }}</p>
-              {% elif content.type == 'tool_result' %}
-                <p><strong>Tool Result:</strong> {{ content.content }}</p>
-              {% elif content.type == 'tool_use' %}
-                <p><strong>Tool Used:</strong> {{ content.name }}</p>
-                <p><strong>Tool Input:</strong> {{ content.input }}</p>
-              {% endif %}
-            {% endfor %}
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>No messages yet. Start the conversation!</p>
-      {% endif %}
-      </div>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-md-12">
-      <form id="chat-form">
-        <div class="input-group">
-          <input type="text" id="user-message" name="user_message" class="form-control" placeholder="Type your message..." required>
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">Send</button>
-          </div>
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Chat {{ chat.id }}</h1>
+        <div class="text-right">
+            <p class="text-sm text-gray-600">Welcome, {{ current_user.username }}</p>
+            <p class="text-xs text-gray-500">Bot9 Auth Token: {{ bot9_token }}</p>
+            <a href="{{ url_for('auth.logout') }}" class="mt-2 inline-block bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold py-2 px-4 rounded">Logout</a>
         </div>
-      </form>
     </div>
-  </div>
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <div id="conversation" class="h-96 overflow-y-auto mb-6">
+            {% if conversation %}
+                {% for message in conversation %}
+                    <div class="mb-4 p-3 rounded-lg {% if message.role == 'user' %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {% for content in message.content %}
+                            {% if content.type == 'text' %}
+                                <p class="mb-1"><strong>{{ message.role|capitalize }}:</strong> {{ content.text }}</p>
+                            {% elif content.type == 'tool_result' %}
+                                <p class="mb-1"><strong>Tool Result:</strong> {{ content.content }}</p>
+                            {% elif content.type == 'tool_use' %}
+                                <p class="mb-1"><strong>Tool Used:</strong> {{ content.name }}</p>
+                                <p class="mb-1"><strong>Tool Input:</strong> {{ content.input }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-gray-500">No messages yet. Start the conversation!</p>
+            {% endif %}
+        </div>
+        <form id="chat-form" class="mt-4">
+            <div class="flex">
+                <input type="text" id="user-message" name="user_message" class="flex-grow mr-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Type your message..." required>
+                <button type="submit" id="send-button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Send</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
-  document.getElementById('chat-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var userMessage = document.getElementById('user-message').value;
-    fetch('{{ url_for("main.send_message", chat_id=chat.id) }}', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user_message: userMessage })
-    })
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('user-message').value = '';
-      refreshChat();
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  });
-
-    function refreshChat() {
-    fetch('{{ url_for("main.refresh_chat", chat_id=chat.id) }}')
+    const chatForm = document.getElementById('chat-form');
+    const userMessageInput = document.getElementById('user-message');
+    const sendButton = document.getElementById('send-button');
+    const conversationDiv = document.getElementById('conversation');
+    let isFirstMessage = true;
+    let isInputBlocked = false;
+  
+    function disableUserInput() {
+      userMessageInput.disabled = true;
+      sendButton.disabled = true;
+      userMessageInput.placeholder = "Please wait for the assistant's response...";
+      isInputBlocked = true;
+    }
+  
+    function enableUserInput() {
+      userMessageInput.disabled = false;
+      sendButton.disabled = false;
+      userMessageInput.placeholder = "Type your message...";
+      isInputBlocked = false;
+    }
+  
+    function shouldEnableInput(lastMessage) {
+      return lastMessage && 
+             lastMessage.role === 'assistant' && 
+             !lastMessage.content.some(c => c.type === 'tool_use');
+    }
+  
+    chatForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (isInputBlocked) return;
+  
+      var userMessage = userMessageInput.value;
+      userMessageInput.value = ''; // Clear input immediately
+      disableUserInput(); // Disable input immediately
+  
+      fetch('{{ url_for("main.send_message", chat_id=chat.id) }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_message: userMessage })
+      })
       .then(response => response.json())
       .then(data => {
-        var conversation = document.getElementById('conversation');
-        conversation.innerHTML = ''; // Clear existing messages
-        data.conversation.forEach(message => {
-          var messageElement = document.createElement('div');
-          messageElement.classList.add('message', message.role + '-message');
-          var messageContent = '';
-          message.content.forEach(content => {
-            if (content.type === 'text') {
-              messageContent += '<p><strong>' + message.role.charAt(0).toUpperCase() + message.role.slice(1) + ':</strong> ' + content.text + '</p>';
-            } else if (content.type === 'tool_result') {
-              messageContent += '<p><strong>Tool Result:</strong> ' + content.content + '</p>';
-            } else if (content.type === 'tool_use') {
-              messageContent += '<p><strong>Tool Used:</strong> ' + content.name + '</p>';
-              messageContent += '<p><strong>Tool Input:</strong> ' + JSON.stringify(content.input) + '</p>';
-            }
-          });
-          messageElement.innerHTML = messageContent;
-          conversation.appendChild(messageElement);
-        });
-        conversation.scrollTop = conversation.scrollHeight;
+        refreshChat();
       })
       .catch(error => {
         console.error('Error:', error);
+        enableUserInput(); // Re-enable input if there's an error
       });
-  }
-
-  // Refresh chat every 1 second
-  setInterval(refreshChat, 5000);
-
-  // Initial refresh
-  refreshChat();
-</script>
-
-<style>
-  #conversation {
-    min-height: 400px;
-    max-height: 600px;
-    min-width: 300px;
-    width: 100%;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-  .message {
-    margin-bottom: 10px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  .user-message {
-    background-color: #e6f2ff;
-  }
-  .assistant-message {
-    background-color: #f0f0f0;
-  }
-</style>
-{% endblock %}
+    });
+  
+    function refreshChat() {
+      fetch('{{ url_for("main.refresh_chat", chat_id=chat.id) }}')
+        .then(response => response.json())
+        .then(data => {
+          let newContent = '';
+          data.conversation.forEach(message => {
+            newContent += `
+              <div class="mb-4 p-3 rounded-lg ${message.role === 'user' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
+            `;
+            message.content.forEach(content => {
+              if (content.type === 'text') {
+                newContent += `<p class="mb-1"><strong>${message.role.charAt(0).toUpperCase() + message.role.slice(1)}:</strong> ${content.text}</p>`;
+              } else if (content.type === 'tool_result') {
+                newContent += `<p class="mb-1"><strong>Tool Result:</strong> ${content.content}</p>`;
+              } else if (content.type === 'tool_use') {
+                newContent += `<p class="mb-1"><strong>Tool Used:</strong> ${content.name}</p>`;
+                newContent += `<p class="mb-1"><strong>Tool Input:</strong> ${JSON.stringify(content.input)}</p>`;
+              }
+            });
+            newContent += `</div>`;
+          });
+          
+          // Update the conversation div without scrolling
+          conversationDiv.innerHTML = newContent;
+  
+          // Check if we should enable or disable user input
+          const lastMessage = data.conversation[data.conversation.length - 1];
+          
+          if (data.conversation.length > 0) {
+            if (shouldEnableInput(lastMessage)) {
+              enableUserInput();
+            } else if (lastMessage.role === 'user') {
+              disableUserInput();
+            }
+            // If it's not a user message and not an assistant message without tool use, keep the current input state
+          } else {
+            // If there are no messages, enable input for the first message
+            enableUserInput();
+          }
+  
+          // Remove the isFirstMessage check as it's no longer needed
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  
+    // Refresh chat every 1 second
+    setInterval(refreshChat, 1000);
+  
+    // Initial refresh
+    refreshChat();
+  </script>
+  {% endblock %}

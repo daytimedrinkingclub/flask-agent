@@ -40,7 +40,6 @@ class SearchService:
         try:
             response = requests.post(endpoint, json=payload)
             response.raise_for_status()
-            print(response.json())
             return json.dumps(response.json(), indent=2)
         except requests.RequestException as e:
             print(f"An error occurred while making the request: {e}")

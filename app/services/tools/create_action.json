@@ -1,0 +1,18 @@
+{
+    "name": "create_botnine_action",
+    "description": "Use this tool to create a botnine action, on the users bot9 account, the action should have been added to the database",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "action_name": { 
+            "type": "string", 
+            "description": "The name of action to be created on bot9, the action needs be written to the database before being of created on botnine as the action name is used to find it from the database" 
+        },
+        "action_description": { 
+            "type": "string", 
+            "description": "The deescripton of the action being created" 
+        }
+      },
+      "required": ["action_name", "action_description"]
+    }
+}

@@ -9,7 +9,7 @@ class ContextService:
 
         messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
         
-        print(f"Total messages loaded: {len(messages)}")
+        print(f"Total messages loaded with context services: {len(messages)}")
 
         context = []
         for message in messages:
@@ -64,6 +64,5 @@ class ContextService:
                     })
                 
         print(f"Total messages built in context: {len(context)}")
-        print(f"Context------------------------\n\n {context} \n\n------------------------------")
 
         return context

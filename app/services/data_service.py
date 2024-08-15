@@ -2,7 +2,7 @@
 from ..extensions import db
 import json
 from sqlalchemy import desc
-from ..models.models import User, Token, Chat, Message
+from ..models.models import User, Token, Chat, Message, ActionCurls
 
 class DataService:
     @staticmethod
@@ -148,3 +148,30 @@ class DataService:
     def get_chats_with_summary(user_id):
         chats = Chat.query.filter_by(user_id=user_id).all()
         return [DataService.get_chat_summary(chat.id) for chat in chats] if chats else []
+    
+    @staticmethod
+    def get_bot9_token(chat_id):
+        chat = Chat.query.filter(Chat.id == chat_id).first()
+        if chat:
+            return Token.query.filter(Token.user_id == chat.user_id).first().botnine_token
+        return None
+    
+    @staticmethod
+    def get_chatbot_id(chat_id):
+        chat = Chat.query.filter(Chat.id == chat_id).first()
+        if chat:
+            return chat.botnine_chatbot_id
+        return None
+    
+    @staticmethod
+    def write_curl_to_database(chat_id, curl_data, action_name):
+        new_curl = ActionCurls(chat_id=chat_id, curl_as_json=curl_data, action_name=action_name)
+        db.session.add(new_curl)
+        db.session.commit()
+        return f"Action added to database with action_name='{new_curl.action_name}'"
+    
+    @staticmethod
+    def get_curl_data(chat_id, action_name):
+        curl_data = ActionCurls.query.filter(ActionCurls.chat_id == chat_id, ActionCurls.action_name == action_name).first()
+        return curl_data.curl_as_json
+
