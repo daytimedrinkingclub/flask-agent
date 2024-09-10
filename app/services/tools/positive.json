@@ -1,0 +1,14 @@
+{
+    "name": "positive_news_analysis",
+    "description": "Analyze the positive news using this tool, this tool can be used to find any kind of positive news information that you need from the web",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "news_data": { 
+            "type": "string", 
+            "description": "The news data to analyze, always try to use this news data when you need to analyze the news data please pass all the data and the sources of the news data for the analysis"
+        }
+      },
+      "required": ["news_data"]
+    }
+}

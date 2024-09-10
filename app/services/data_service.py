@@ -2,64 +2,30 @@
 from ..extensions import db
 import json
 from sqlalchemy import desc
-from ..models.models import User, Token, Chat, Message
+from ..models.models import Chat, Message
 
 class DataService:
     @staticmethod
-    def create_user(username, password_hash, botnine_token):
-        user = User(username=username, password_hash=password_hash)
-        db.session.add(user)
-        db.session.commit()
-        DataService.save_botnine_token(user.id, botnine_token)
-        return user
-    
-    @staticmethod
-    def save_botnine_token(user_id, botnine_token):
-        token = Token(user_id=user_id, botnine_token=botnine_token)
-        db.session.add(token)
-        db.session.commit()
-        return token
-    
-    @staticmethod
-    def get_botnine_token(user_id):
-        token = Token.query.filter_by(user_id=user_id).first()
-        if token:
-            return token.botnine_token
-        return None # or handle this case as appropriate for your application
-    
-    @staticmethod
-    def get_user_by_id(user_id):
-        return User.query.filter_by(id=user_id).first()
-
-    @staticmethod
+    # service to get chat by id
     def get_chat_by_id(chat_id):
         return Chat.query.get(chat_id)
-    
-    @staticmethod
-    def get_chats_by_user_id(user_id):
-        return Chat.query.filter_by(user_id=user_id).all()
-    
-    @staticmethod
-    def update_botnine_token(user_id, new_token):
-        token = Token.query.filter_by(user_id=user_id).first()
-        if token:
-            token.botnine_token = new_token
-            db.session.commit()
-        return token
 
     @staticmethod
-    def get_user_by_id(user_id):
-        return User.query.get(user_id)
+    # service to get all chats from the database
+    def get_all_chats():
+        return Chat.query.all()
 
     @staticmethod
-    def create_chat(user_id, botnine_chatbot_id):
-        new_chat = Chat(user_id=user_id, botnine_chatbot_id=botnine_chatbot_id)
+    # service to create a new chat
+    def create_chat():
+        new_chat = Chat()
         db.session.add(new_chat)
         db.session.commit()
         print(f"New Chat created with ID: {new_chat.id}")
         return str(new_chat.id)
 
     @staticmethod
+    # service to save a message to the database
     def save_message(chat_id, role, content, tool_use_id=None, tool_use_input=None, tool_name=None, tool_result=None):
         message = Message(
             chat_id=chat_id,
@@ -75,6 +41,7 @@ class DataService:
         return message
     
     @staticmethod
+    # service to load the conversation from the database
     def load_conversation(chat_id):
         messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
         conversation = []
@@ -132,6 +99,7 @@ class DataService:
     
     @staticmethod
     def get_chat_summary(chat_id):
+        # service to get the chat summary only
         chat = Chat.query.get(chat_id)
         if not chat:
             return None
@@ -143,8 +111,3 @@ class DataService:
             "message_count": message_count,
             "created_at": chat.created_at
         }
-
-    @staticmethod
-    def get_chats_with_summary(user_id):
-        chats = Chat.query.filter_by(user_id=user_id).all()
-        return [DataService.get_chat_summary(chat.id) for chat in chats] if chats else []

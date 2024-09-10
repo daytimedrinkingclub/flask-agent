@@ -24,12 +24,7 @@ class AnthropicChat:
             system=
             """
             Today is {today}.\n
-            You are tasked to complete the technological integrations needed by the user to successfully run their support with AI using bot9.ai.\n
-            User can create custom actions on bot9 which are nothing but rest api calls to any external api, you can use these actions can be used by the bot9 ai support widget to solve day to day support issues\n
-            the user will provide you general details, about their use case, further try to reach out bot9 tech or search the web to solve the user problems, and complete the task\n
-            always try to use tools to complete the goal, search the web for latest api endpoints and structures to be sure about things, consult the user about the support use cases they want to solve \n
-            if needed consult the bot9 tech team to get more information about what all is possible with the bot9 software\n
-            always search the web for latest api endpoints and only then share the data to curl command writer so we are sure about our api calls
+            You are tasked to help the user with their day to day coding requirements.
             """,
             tools=tools,
             # tool_choice={"type": "auto"},

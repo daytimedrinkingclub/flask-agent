@@ -36,7 +36,6 @@ class SearchService:
             "include_raw_content": include_raw_content,
             "max_results": max_results
         }
-
         try:
             response = requests.post(endpoint, json=payload)
             response.raise_for_status()

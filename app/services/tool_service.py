@@ -21,11 +21,13 @@ class Tools:
         return tools
     
     @staticmethod
-    def write_to_file(file_content, file_name):
+    def write_to_file(file_name, positive_news, negative_news, positive_news_sources, negative_news_sources):
         # Ensure the file has a .txt extension
         if not file_name.endswith('.txt'):
             file_name += '.txt'
         
+        file_content = f"Positive News: {positive_news}\nNegative News: {negative_news}\nPositive News Sources: {positive_news_sources}\nNegative News Sources: {negative_news_sources}"
+
         # Get the current directory
         current_dir = os.path.dirname(os.path.abspath(__file__))
         print(f"Current directory: {current_dir}")
@@ -43,8 +45,8 @@ class ToolsHandler:
     @staticmethod
     def process_tool_use(tool_name, tool_input, tool_use_id, chat_id):
         print(f"process_tool_use functioned called")
-        if tool_name == "consult_subhash":
-            user_message = f"{tool_input['query']}"
+        if tool_name == "positive_news_analysis":
+            user_message = f"{tool_input['news_data']}"
             result = AnthropicService.call_anthropic(tool_name, user_message)
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
@@ -52,13 +54,13 @@ class ToolsHandler:
             result = SearchService.search(tool_input["query"])
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
-        elif tool_name == "curl_command_writer":
-            user_message = f"Endpoint: {tool_input['endpoint']}\nMethod: {tool_input['method']}\nHeaders: {tool_input['headers']}\nBody: {tool_input['parameters']}"
+        elif tool_name == "negative_news_analysis":
+            user_message = f"{tool_input['news_data']}"
             result = AnthropicService.call_anthropic(tool_name, user_message)
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
-        elif tool_name == "write_curl_to_file":
-            result = Tools.write_to_file(tool_input["file_content"], tool_input["file_name"])
+        elif tool_name == "update_news_data":
+            result = Tools.write_to_file(tool_input["positive_news"], tool_input["negative_news"], tool_input["postive_news_sources"], tool_input["negative_news_sources"])
             DataService.save_message(chat_id, "user", content=result, tool_use_id=tool_use_id, tool_result=result)
             return result
         else:

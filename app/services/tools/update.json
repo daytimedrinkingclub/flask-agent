@@ -1,0 +1,30 @@
+{
+    "name": "update_news_data",
+    "description": "Update the news data using this tool, this tool can be used to update the news data that you need from the web",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "file_name": { 
+            "type": "string", 
+            "description": "Please pass the name of the file that you need to update"
+        },
+        "positive_news": { 
+            "type": "string", 
+            "description": "Please pass a detailed positive analysis of the news data that you need to update"
+        },
+        "negative_news": { 
+            "type": "string", 
+            "description": "Please pass a detailed negative analysis of the news data that you need to update"
+        },
+        "postive_news_sources": {
+            "type": "array",
+            "description": "Please pass a detailed list of sources of the positive news that you need to update"
+        },
+        "negative_news_sources": {
+            "type": "array",
+            "description": "Please pass a detailed list of sources of the negative news that you need to update"
+        }
+      },
+      "required": ["file_name", "positive_news", "negative_news", "postive_news_sources", "negative_news_sources"]
+    }
+}

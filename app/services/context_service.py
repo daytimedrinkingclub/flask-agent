@@ -1,6 +1,6 @@
 # app/services/context_service.py
 from ..extensions import db
-from ..models.models import User, Chat, Message
+from ..models.models import Chat, Message
 
 class ContextService:
     @staticmethod
@@ -8,7 +8,6 @@ class ContextService:
         print(f"Building context for chat ID: {chat_id}")
 
         messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.created_at).all()
-        
         print(f"Total messages loaded: {len(messages)}")
 
         context = []

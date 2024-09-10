@@ -2,14 +2,13 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load environment variables from .env file in the root of the project
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+print(os.getenv('SECRET_KEY'))
 
 class Config(object):
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY')
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-    TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY')
-    GOOGLE_SEARCH_API_KEY = os.environ.get('GOOGLE_SEARCH_API_KEY')
-    SEARCH_ENGINE_ID = os.environ.get('SEARCH_ENGINE_ID')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+    TAVILY_API_KEY = os.getenv('TAVILY_API_KEY')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
