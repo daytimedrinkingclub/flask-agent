@@ -1,30 +1,26 @@
 {
-    "name": "update_news_data",
-    "description": "Update the news data using this tool, this tool can be used to update the news data that you need from the web",
+    "name": "update_research_data",
+    "description": "This tool can be used to write the research data into a csv file",
     "input_schema": {
       "type": "object",
       "properties": {
-        "file_name": { 
+        "ai_tool_name": { 
             "type": "string", 
-            "description": "Please pass the name of the file that you need to update"
+            "description": "The name of the ai tool needs to be passed here"
         },
-        "positive_news": { 
+        "ai_tool_description": { 
             "type": "string", 
-            "description": "Please pass a detailed positive analysis of the news data that you need to update"
+            "description": "A short description about the ai tool needs to be passed here"
         },
-        "negative_news": { 
+        "ai_tool_link": { 
             "type": "string", 
-            "description": "Please pass a detailed negative analysis of the news data that you need to update"
+            "description": "The website link of the ai tool needs to be passed here"
         },
-        "postive_news_sources": {
+        "ai_tool_category": {
             "type": "array",
-            "description": "Please pass a detailed list of sources of the positive news that you need to update"
-        },
-        "negative_news_sources": {
-            "type": "array",
-            "description": "Please pass a detailed list of sources of the negative news that you need to update"
+            "description": "An appropriate category for the ai tool needs to be passed here"
         }
       },
-      "required": ["file_name", "positive_news", "negative_news", "postive_news_sources", "negative_news_sources"]
+      "required": ["ai_tool_name", "ai_tool_description", "ai_tool_link", "ai_tool_category"]
     }
 }

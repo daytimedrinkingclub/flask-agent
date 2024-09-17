@@ -24,7 +24,7 @@ class AnthropicChat:
             system=
             """
             Today is {today}.\n
-            You are tasked to help the user with their day to day coding requirements.
+            You are tasked to help the user with their research tasks for ai tools. Always let the user know the list of tools available
             """,
             tools=tools,
             # tool_choice={"type": "auto"},
